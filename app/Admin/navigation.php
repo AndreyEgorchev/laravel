@@ -36,7 +36,14 @@ return [
     [
         'title' => 'Specialist',
         'icon'  => 'fa fa-exclamation-circle',
-        'url'   => route('specialists.index'),
+        'pages' => [
+            (new Page(\App\Specialist::class))
+                ->setIcon('fa fa-fax')
+                ->setPriority(0),
+            (new Page(\App\Speciality::class))
+                ->setIcon('fa fa-fax')
+                ->setPriority(0),
+        ]
     ],
 
     // Examples
