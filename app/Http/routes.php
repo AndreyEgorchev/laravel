@@ -32,3 +32,7 @@ Route::get('specialists/region','SpecilistController@getRegion');
 Route::post('specialists/city_first','SpecilistController@getCity_first');
 Route::post('specialists/city_second','SpecilistController@getCity_second');
 Route::post('specialists/city_third','SpecilistController@getCity_third');
+//Route::get('attaches/{dateImg}/{filename}/{width}/{height}/{type?}/{anchor?}', 'ImageController@whResize');
+//Route::get('attaches/{dateImg}/{filename}/', 'ImageController@fullImage');
+
+Route::resource('image', 'ImageController');
