@@ -50,7 +50,7 @@ AdminSection::registerModel(Specialist::class, function (ModelConfiguration $mod
                 ], 3)->addColumn([
                     AdminFormElement::text('email', ' email')->required()
                     ], 3)->addColumn([
-                        AdminFormElement::select('id', 'specialty_name')->setModelForOptions(new Speciality())->setDisplay('specialty_name')
+                        AdminFormElement::select('specialty_name', 'specialty_name')->setModelForOptions(new Speciality())->setDisplay('specialty_name')
                     ])
             ]),
             'Description' => new \SleepingOwl\Admin\Form\FormElements([
@@ -69,11 +69,11 @@ AdminSection::registerModel(Specialist::class, function (ModelConfiguration $mod
             'Work city' => new \SleepingOwl\Admin\Form\FormElements([
                 AdminFormElement::columns()
                     ->addColumn([
-                    AdminFormElement::select('id', 'city_first ')->setModelForOptions(new City())->setDisplay('city_ua')
+                    AdminFormElement::select('city_first', 'city_first ')->setModelForOptions(new City())->setDisplay('city_ua')
                 ], 4)->addColumn([
-                    AdminFormElement::select('id', 'city_second')->setModelForOptions(new City())->setDisplay('city_ua')
+                    AdminFormElement::select('city_second', 'city_second')->setModelForOptions(new City())->setDisplay('city_ua')
                 ], 4)->addColumn([
-                    AdminFormElement::select('id', 'city_third')->setModelForOptions(new City())->setDisplay('city_ua')
+                    AdminFormElement::select('city_third', 'city_third')->setModelForOptions(new City())->setDisplay('city_ua')
                     ])
             ]),
 //            'Companies' => new \SleepingOwl\Admin\Form\FormElements([
@@ -92,5 +92,6 @@ AdminSection::registerModel(Specialist::class, function (ModelConfiguration $mod
         return $form;
 
     });
+
 
 });

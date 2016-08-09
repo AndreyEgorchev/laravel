@@ -47,7 +47,7 @@ class SpecilistController extends Controller
      */
     public function store(Request $request)
     {
-//        dd($request->all());
+        dd($request->all());
         Specialist::create($request->all());
         return redirect()->back();
     }
@@ -129,7 +129,7 @@ class SpecilistController extends Controller
             echo " <option>--Виберіть Місто--</option>";
             foreach ($city as $key)
             {
-                echo " <option>" .$key['city_ua']. "</option>";
+                echo " <option value=".$key['id'].">" .$key['city_ua']. "</option>";
             }
             echo "</select>";
         }
@@ -149,7 +149,7 @@ class SpecilistController extends Controller
             echo " <option>--Виберіть Місто--</option>";
             foreach ($city as $key)
             {
-                echo " <option>" .$key['city_ua']. "</option>";
+                echo " <option value=".$key['id'].">" .$key['city_ua']. "</option>";
             }
             echo "</select>";
         }
@@ -169,7 +169,7 @@ class SpecilistController extends Controller
             echo " <option>--Виберіть Місто--</option>";
             foreach ($city as $key)
             {
-                echo " <option>" .$key['city_ua']. "</option>";
+                echo " <option value=".$key['id'].">" .$key['city_ua']. "</option>";
             }
             echo "</select>";
         }
