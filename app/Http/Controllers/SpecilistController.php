@@ -47,21 +47,29 @@ class SpecilistController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
+       // dd($request->all());
         Specialist::create($request->all());
         return redirect()->back();
     }
 
+
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param City $citymodel
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function show($id)
+    public function show(City $citymodel,Speciality $specmodel, $id)
     {
-       $specialists=Specialist::find($id);
-        return view('specialist.specialists_show',['specialists'=>$specialists]);
+        $specialists=Specialist::find($id);
+        $city_first=$citymodel->getNameCity($specialists->city_first);
+        $city_second=$citymodel->getNameCity($specialists->city_second);
+        $city_third=$citymodel->getNameCity($specialists->city_third);
+        $speciality=$specmodel->getNameSpeciality($specialists->specialty_name);
+        return view('specialist.specialists_show',['specialists'=>$specialists,
+                                                   'city_first'=>$city_first->city_ua,
+                                                    'city_second'=>$city_second->city_ua,
+                                                    'city_third'=>$city_third->city_ua,
+                                                    'speciality'=>$speciality->specialty_name]);
 
     }
 

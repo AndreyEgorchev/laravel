@@ -22,7 +22,7 @@
                 <select size="1" name="specialty_name" class="special_select" required>
                     <option value="0" selected>--Виберіть спеціальність--</option>
                     @foreach($speciality as $key )
-                        <option value={{ $key->specialty_name }} >{{ $key->specialty_name }}</option>
+                        <option value={{ $key->id }} >{{ $key->specialty_name }}</option>
                     @endforeach
                 </select>
             </div>

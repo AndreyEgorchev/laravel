@@ -9,9 +9,10 @@ class Speciality extends Model
     protected $fillable = [
         'specialty_name'
     ];
-    public function getSpeciality()
+    public function getNameSpeciality($id)
     {
-//        $speciality=Speciality::all();
-//        return $speciality;
+        $speciality=$this->latest('specialty_name')->where('id','=', $id)->first();
+        return $speciality;
+
     }
 }

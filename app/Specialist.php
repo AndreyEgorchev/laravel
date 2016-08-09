@@ -20,8 +20,5 @@ class Specialist extends Model
         'city_third',
         'specialty_name'
     ];
-public function getSpeciality()
-{
- 
-}
+
 }
