@@ -21,8 +21,7 @@ AdminSection::registerModel(Specialist::class, function (ModelConfiguration $mod
                 ->setWidth('50px'),
             AdminColumn::text('last_name')->setLabel('last_name')
                 ->setWidth('50px'),
-            AdminColumn::text('specialty_name')->setLabel('specialty_name')
-                ->setWidth('50px'),
+
 //            AdminColumn::datetime('birthday')->setLabel('Birthday')->setFormat('d.m.Y')
 //                ->setWidth('150px')
 //                ->setHtmlAttribute('class', 'text-center'),
