@@ -1,100 +1,60 @@
 var elixir = require('laravel-elixir');
-require('./elixir-extensions');
+elixir.extend('sourcemaps', false);
+
+process.env.DISABLE_NOTIFIER = true;
+
+/*
+ |--------------------------------------------------------------------------
+ | Elixir Asset Management
+ |--------------------------------------------------------------------------
+ |
+ | Elixir provides a clean, fluent API for defining some basic Gulp tasks
+ | for your Laravel application. By default, we are compiling the Less
+ | file for our application, as well as publishing vendor resources.
+ |
+ */
+
 
 elixir(function(mix) {
     mix
-    //.phpUnit()
-    //.compressHtml()
+        .less('common.less', 'public/default/css');
 
-    /**
-     * Copy needed files from /node directories
-     * to /public directory.
-     */
-        .copy(
-            'node_modules/font-awesome/fonts',
-            'public/build/fonts/font-awesome'
-        )
-        .copy(
-            'node_modules/bootstrap-sass/assets/fonts/bootstrap',
-            'public/build/fonts/bootstrap'
-        )
-        .copy(
-            'node_modules/bootstrap-sass/assets/javascripts/bootstrap.min.js',
-            'public/js/vendor/bootstrap'
-        )
-
-        /**
-         * Process frontend SCSS stylesheets
-         */
-        .sass([
-            'frontend/app.scss',
-            'plugin/sweetalert/sweetalert.scss'
-        ], 'resources/assets/css/frontend/app.css')
-
-        /**
-         * Combine pre-processed frontend css files
-         */
-        .styles([
-            'frontend/app.css'
-        ], 'public/css/frontend.css')
-
-        /**
-         * Combine frontend scripts
-         */
+    /**************************************************************
+     * Libraries
+     **************************************************************/
+    mix
         .scripts([
-            'plugin/sweetalert/sweetalert.min.js',
-            'plugins.js',
-            'frontend/app.js'
-        ], 'public/js/frontend.js')
+            'jquery/js/jquery.min.js',
+            'bootstrap/js/bootstrap.js',
+            'noty/js/jquery.noty.packaged.js',
+            'bootbox.js/js/bootbox.js',
+            'jquery-colorbox/js/jquery.colorbox-min.js',
+            'moment/js/moment-with-locales.min.js',
+            'underscore/js/underscore.js',
+            'x-editable/js/bootstrap-editable.min.js',
+            'ekko-lightbox/js/ekko-lightbox.min.js',
+            '../../../resources/assets/js/core.js'
+        ], 'public/default/js/libraries.js', 'public/default/libs');
 
-        /**
-         * Process backend SCSS stylesheets
-         */
-        .sass([
-            'backend/app.scss',
-            'backend/plugin/toastr/toastr.scss',
-            'plugin/sweetalert/sweetalert.scss'
-        ], 'resources/assets/css/backend/app.css')
-
-        /**
-         * Combine pre-processed backend css files
-         */
-        .styles([
-            'backend/app.css'
-        ], 'public/css/backend.css')
-
-        /**
-         * Make RTL (Right To Left) css stylesheet for the backend
-         */
-        .rtlCss()
-
-        /**
-         * Combine backend scripts
-         */
+    /**************************************************************
+     * Admin
+     **************************************************************/
+    mix
         .scripts([
-            'plugin/sweetalert/sweetalert.min.js',
-            'plugins.js',
-            'backend/app.js',
-            'backend/plugin/toastr/toastr.min.js',
-            'backend/custom.js'
-        ], 'public/js/backend.js')
+            'column/checkbox.js',
+            'column/control.js',
+            'column/image.js',
+            'form/datetime.js',
+            'form/select.js',
+            'form/image/init.js',
+            'form/image/initMultiple.js',
+            'form/buttons.js',
+            'init.js'
+        ], 'public/default/js/admin-default.js');
 
-        /**
-         * Combine pre-processed rtl css files
-         */
-        .styles([
-            'rtl/bootstrap-rtl.css'
-        ], 'public/css/rtl.css')
-
-        /**
-         * Apply version control
-         */
-        .version([
-            "public/css/frontend.css",
-            "public/js/frontend.js",
-            "public/css/backend.css",
-            "public/css/backend-rtl.css",
-            "public/js/backend.js",
-            "public/css/rtl.css"
-        ]);
+    mix
+        .scripts([
+            'libs/datatables/dataTables.bootstrap.js',
+            'libs/datatables/datatables.js'
+        ], 'public/default/js/datatables.min.js');
 });
