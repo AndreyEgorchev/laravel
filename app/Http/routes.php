@@ -15,23 +15,23 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-//Route::auth();
-
 Route::get('/home', 'HomeController@index');
-// Authentication routes...
-//Route::get('auth/login', 'Auth\AuthController@getLogin');
-//Route::post('auth/login', 'Auth\AuthController@postLogin');
-//Route::get('auth/logout', 'Auth\AuthController@getLogout');
-//
-//// Registration routes...
-//Route::get('auth/register', 'Auth\AuthController@getRegister');
-//Route::post('auth/register', 'Auth\AuthController@postRegister');
-//get('/specialists',['as'=>'specialists', 'uses'=>'Specialist@index']);
+
 $router->resource('specialists','SpecilistController');
 Route::get('specialists/region','SpecilistController@getRegion');
 Route::post('specialists/city_first','SpecilistController@getCity_first');
 Route::post('specialists/city_second','SpecilistController@getCity_second');
 Route::post('specialists/city_third','SpecilistController@getCity_third');
+
+Route::post('/home', function(){
+//Указывает на пользовательскую папку
+    $options['upload_url'] = url('/images/uploads/.');
+//Uploads custom folder
+    $options['upload_dir'] = public_path().'/images/uploads/.';
+//Create handler with options
+    $upload_handler = new App\Http\Controllers\UploadController($options);
+});
+
 Route::group(['middleware' => ['web']], function () {
     /**
      * Route for auth system

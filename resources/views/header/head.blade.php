@@ -8,6 +8,7 @@
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
 <script type="text/javascript" src="{{asset('JS/select region.js')}}"></script>
+{{--<script type="text/javascript" src="{{asset('js/multiple_image.js')}}"></script>--}}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
 <!-- Fonts -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css" integrity="sha384-XdYbMnZ/QjLh6iI4ogqCTaIjrFk87ip+ekIjefZch0Y+PvJ8CDYtEs1ipDmPorQ+" crossorigin="anonymous">
@@ -26,3 +27,13 @@
         margin-right: 6px;
     }
 </style>
+
+
+<!-- Generic page styles -->
+<!-- blueimp Gallery styles -->
+<link rel="stylesheet" href="//blueimp.github.io/Gallery/css/blueimp-gallery.min.css">
+<!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
+<link rel="stylesheet" href="{{ asset('css/jquery.fileupload.css') }}" rel="stylesheet">
+<link rel="stylesheet" href="{{ asset('css/jquery.fileupload-ui.css') }}" rel="stylesheet">
+<!-- CSS adjustments for browsers with JavaScript disabled -->
+
