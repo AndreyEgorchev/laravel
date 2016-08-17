@@ -8,9 +8,10 @@ use App\Region;
 use App\Specialist;
 use App\Speciality;
 use Illuminate\Http\Request;
-
+use App\Images;
 use App\Http\Requests;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Http\UploadedFile;
 
 class SpecilistController extends Controller
 {
@@ -47,29 +48,54 @@ class SpecilistController extends Controller
      */
     public function store(Request $request)
     {
-       // dd($request->all());
-        Specialist::create($request->all());
+        $spec= Specialist::create($request->all());
+        $files = $request->file('attachments');
+        echo '<pre>';
+        var_dump($files);
+
+        if (!empty($files)) {
+            foreach($files as $file) {
+                $image= new Images($files);
+                $image['originalName']=$file->getClientOriginalName();
+                $image['mimeType']=$file->getClientMimeType();
+                $image['size']=$file->getClientSize();
+                // Set the destination path
+                $destinationPath = 'images/uploads';
+                // Get the orginal filname or create the filename of your choice
+                $filename = $file->getClientOriginalName();
+                // Copy the file in our upload folder
+                $file->move($destinationPath, $filename);
+
+                $image['pathName']=$destinationPath;
+                $spec->images()->save($image);
+            }
+        }
         return redirect()->back();
     }
 
 
     /**
      * @param City $citymodel
+     * @param Speciality $specmodel
      * @param $id
+     * @param Images $imagemodel
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function show(City $citymodel,Speciality $specmodel, $id)
+    public function show(City $citymodel, Speciality $specmodel, $id, Images $imagemodel)
     {
         $specialists=Specialist::find($id);
-        $city_first=$citymodel->getNameCity($specialists->city_first);
-        $city_second=$citymodel->getNameCity($specialists->city_second);
-        $city_third=$citymodel->getNameCity($specialists->city_third);
+        $array_city=array($specialists->city_first,$specialists->city_second,$specialists->city_third);
+        foreach ($array_city as $key){
+            $city[]=$citymodel->getNameCity($key);
+        }
         $speciality=$specmodel->getNameSpeciality($specialists->specialty_name);
+        $images=$imagemodel->getImages($id);
+//        $images=Images::find($id)->specialist();
+//        dd($images);
         return view('specialist.specialists_show',['specialists'=>$specialists,
-                                                   'city_first'=>$city_first->city_ua,
-                                                    'city_second'=>$city_second->city_ua,
-                                                    'city_third'=>$city_third->city_ua,
-                                                    'speciality'=>$speciality->specialty_name]);
+                                                   'city'=>$city,
+                                                   'speciality'=>$speciality->specialty_name,
+                                                    'images'=>$images]);
 
     }
 
@@ -183,5 +209,14 @@ class SpecilistController extends Controller
         }
         return new Response();
     }
+
+
+
+
+
+
+
+
+
 
 }

@@ -3,7 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Images;
 
+/**
+ * Class Specialist
+ * @package App
+ */
 class Specialist extends Model
 {
     protected $fillable = [
@@ -18,7 +23,16 @@ class Specialist extends Model
         'city_first',
         'city_second',
         'city_third',
-        'specialty_name'
+        'specialty_name',
+
     ];
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function images()
+    {
+        return $this->hasMany('app\Images');
+    }
+    
 }

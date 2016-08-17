@@ -21,13 +21,18 @@
                 <dt class="list-determination_definition">{{ $specialists->link_instagram }}</dt>
                 <dt class="list-determination_term">linkfb</dt>
                 <dt class="list-determination_definition">{{ $specialists->link_fb }}</dt>
-                <dt class="list-determination_term">Firt city</dt>
-                <dt class="list-determination_definition">{{ $city_first }}</dt>
-                <dt class="list-determination_term">Second city</dt>
-                <dt class="list-determination_definition">{{ $city_second }}</dt>
-                <dt class="list-determination_term">Third city</dt>
-                <dt class="list-determination_definition">{{ $city_third }}</dt>
-            {{ $specialists->description }}
+                @foreach($city as $item)
+                <dt class="list-determination_definition">{{ $item->city_ua }}</dt>
+                @endforeach
+            <dt class="list-determination_term">Опис навичків роботи</dt>
+            <dt class="list-determination_definition">{{ $specialists->description }}</dt>
+            @foreach ($images as $key)
+{{--                <img src="../public/images/upload/{{ $key->originalName }}" alt="qweqwr">--}}
+                <dt class="list-determination_definition"> <img src="{{asset('../images/uploads/'.$key->originalName)}}"
+                                                                height="150" onclick="changeSizeImage($this)"/>
+                </dt>
+                {{--<img src="{{ asset('uploads/documents/'~item.id~'.'~item.path) }}"--}}
+            @endforeach
                 <p>
 
                     <a href="{{ route('specialists.edit', $specialists->id) }}" class="btn btn-primary">Edit Task</a>

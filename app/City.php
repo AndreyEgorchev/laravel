@@ -9,7 +9,7 @@ class City extends Model
     public function getNameCity($id)
     {
         
-        $city=$this->latest('city_ua')->where('id','=', $id)->first();
+        $city=$this->where('id','=', $id)->first();
         return $city;
     }
 }

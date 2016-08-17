@@ -30,6 +30,7 @@ Route::post('/home', function(){
     $options['upload_dir'] = public_path().'/images/uploads/.';
 //Create handler with options
     $upload_handler = new App\Http\Controllers\UploadController($options);
+    
 });
 
 Route::group(['middleware' => ['web']], function () {
