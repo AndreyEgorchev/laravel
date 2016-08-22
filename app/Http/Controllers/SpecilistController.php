@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\City;
-use App\Helpers\RegionContract;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Validator;
 use App\Region;
 use App\Specialist;
 use App\Speciality;
@@ -11,10 +12,23 @@ use Illuminate\Http\Request;
 use App\Images;
 use App\Http\Requests;
 use Symfony\Component\HttpFoundation\Response;
-use Illuminate\Http\UploadedFile;
+use Input;
+
 
 class SpecilistController extends Controller
 {
+    protected         $rules=[
+        'first_name'=> 'required|max:15',
+        'last_name'=> 'required|max:15',
+        'phone_number'=> 'required|regex:/^\+\d{2}\d{3}\d{3}\d{2}\d{2}$/',
+        'email'=> 'required|regex:/^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$/',
+        'description'=> 'required|min:50',
+        'link_vk'=> 'required|url',
+        'link_instagram'=> 'required|url',
+        'link_fb'=> 'required|url',
+        'attachments' => 'required',
+        'specialty_name'=>'required'
+    ];
     /**
      * Display a listing of the resource.
      *
@@ -23,7 +37,6 @@ class SpecilistController extends Controller
     public function index(Specialist $specialistmodel)
     {
         $specialists=Specialist::all();
-        //dd($specialists);
         return view('specialist.specialists',['specialists'=>$specialists]);
     }
 
@@ -48,28 +61,34 @@ class SpecilistController extends Controller
      */
     public function store(Request $request)
     {
-        $spec= Specialist::create($request->all());
-        $files = $request->file('attachments');
-        echo '<pre>';
-        var_dump($files);
+        $validator = Validator::make($request->all(), $this->rules);
+        if ($validator->fails())
+        {
+            return redirect()->back()->withErrors($validator->errors())->withInput();
+        }
+        else
+        {
+            $spec= Specialist::create($request->all());
+            $files = $request->file('attachments');
+            if (!empty($files)) {
+                foreach($files as $file) {
+                    $image= new Images($files);
+                    $image['originalName']=$file->getClientOriginalName();
+                    $image['mimeType']=$file->getClientMimeType();
+                    $image['size']=$file->getClientSize();
+                    // Set the destination path
+                    $destinationPath = 'images/uploads';
+                    // Get the orginal filname or create the filename of your choice
+                    $filename = $file->getClientOriginalName();
+                    // Copy the file in our upload folder
+                    $file->move($destinationPath, $filename);
 
-        if (!empty($files)) {
-            foreach($files as $file) {
-                $image= new Images($files);
-                $image['originalName']=$file->getClientOriginalName();
-                $image['mimeType']=$file->getClientMimeType();
-                $image['size']=$file->getClientSize();
-                // Set the destination path
-                $destinationPath = 'images/uploads';
-                // Get the orginal filname or create the filename of your choice
-                $filename = $file->getClientOriginalName();
-                // Copy the file in our upload folder
-                $file->move($destinationPath, $filename);
-
-                $image['pathName']=$destinationPath;
-                $spec->images()->save($image);
+                    $image['pathName']=$destinationPath;
+                    $spec->images()->save($image);
+                }
             }
         }
+
         return redirect()->back();
     }
 
@@ -89,9 +108,7 @@ class SpecilistController extends Controller
             $city[]=$citymodel->getNameCity($key);
         }
         $speciality=$specmodel->getNameSpeciality($specialists->specialty_name);
-        $images=$imagemodel->getImages($id);
-//        $images=Images::find($id)->specialist();
-//        dd($images);
+        $images=$specialists->images;
         return view('specialist.specialists_show',['specialists'=>$specialists,
                                                    'city'=>$city,
                                                    'speciality'=>$speciality->specialty_name,
@@ -136,17 +153,23 @@ class SpecilistController extends Controller
         return redirect()->back();
     }
 
+
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param $id
+     * @param Images $imagemodel
+     * @return mixed
      */
-    public function destroy($id)
+    public function destroy($id, Images $imagemodel)
     {
         $specialist = Specialist::findOrFail($id);
+        $specialist_image = $specialist->images;
+        foreach ($specialist_image as $item){
+            $destinationPath = '\images\uploads/';
+            unlink(public_path().$destinationPath.$item->originalName);
+          $item->delete();
+        }
         $specialist->delete();
-        return redirect()->route('specialists.index');
+        return Redirect::to('specialists');
     }
 
     public function getCity_first(Request $request)

@@ -1,9 +1,8 @@
 <?php
 
 namespace App;
-
+use Illuminate\Support\Facades\File;
 use Illuminate\Database\Eloquent\Model;
-
 /**
  * Class Images
  * @package App

@@ -22,17 +22,6 @@ Route::get('specialists/region','SpecilistController@getRegion');
 Route::post('specialists/city_first','SpecilistController@getCity_first');
 Route::post('specialists/city_second','SpecilistController@getCity_second');
 Route::post('specialists/city_third','SpecilistController@getCity_third');
-
-Route::post('/home', function(){
-//Указывает на пользовательскую папку
-    $options['upload_url'] = url('/images/uploads/.');
-//Uploads custom folder
-    $options['upload_dir'] = public_path().'/images/uploads/.';
-//Create handler with options
-    $upload_handler = new App\Http\Controllers\UploadController($options);
-    
-});
-
 Route::group(['middleware' => ['web']], function () {
     /**
      * Route for auth system

@@ -68,12 +68,13 @@ class AuthController extends Controller
             $remember = (bool) $request->remember;
             if (Sentinel::authenticate($request->all(), $remember))
             {
-                return Redirect::intended('/');
+                return Redirect::intended('/admin');
             }
             $errors = 'Неправильный логин или пароль.';
-            return Redirect::back()
-                ->withInput()
-                ->withErrors($errors);
+      
+            return redirect()->back()
+                ->withErrors($errors)
+                ->withInput();
         }
         catch (NotActivatedException $e)
         {
@@ -99,9 +100,9 @@ class AuthController extends Controller
             $delay = $e->getDelay();
             $errors = "Ваш аккаунт блокирован на {$delay} секунд.";
         }
-        return Redirect::back()
-            ->withInput()
-            ->withErrors($errors);
+        return Redirect::to('admin')
+            ->withErrors($errors)
+            ->withInput();
     }
 
 
