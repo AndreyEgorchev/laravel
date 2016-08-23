@@ -34,7 +34,7 @@ return [
         'url'   => route('admin.information'),
     ],
     [
-        'title' => 'Specialist',
+        'title' => 'Спеціалісти',
         'icon'  => 'fa fa-exclamation-circle',
         'pages' => [
             (new Page(\App\Specialist::class))
@@ -45,6 +45,24 @@ return [
                 ->setPriority(0),
         ]
     ],
+    [
+        'title' => 'Пользователи',
+        'icon'  => ' fa fa-user',
+        'pages' => [
+            (new Page(\App\Permit::class))
+                ->setIcon('fa fa-key')
+                ->setPriority(0),
+            (new Page(\App\Role::class))
+                ->setIcon('fa fa-graduation-cap')
+                ->setPriority(0),
+            (new Page(\App\User::class))
+                ->setIcon('fa fa-user')
+                ->setPriority(0),
+
+        ]
+    ],
+
+
 
     // Examples
     // [

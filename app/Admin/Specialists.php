@@ -6,7 +6,7 @@ use SleepingOwl\Admin\Model\ModelConfiguration;
 
 
 AdminSection::registerModel(Specialist::class, function (ModelConfiguration $model) {
-    $model->setTitle('Specialists')->setAlias('specialist');
+    $model->setTitle('Спеціалісти')->setAlias('specialist');
     $model->setMessageOndelete('<i class="fa fa-comment-o fa-lg"></i> Користувач успішно видалений');
     // Display
     $model->onDisplay(function () {
@@ -48,7 +48,8 @@ AdminSection::registerModel(Specialist::class, function (ModelConfiguration $mod
                        AdminFormElement::text('phone_number', 'phone_number')->required()
                 ], 3)->addColumn([
                     AdminFormElement::text('email', ' email')->required()
-                    ], 3)->addColumn([
+                    ], 3)
+                    ->addColumn([
                         AdminFormElement::select('specialty_name', 'specialty_name')->setModelForOptions(new Speciality())->setDisplay('specialty_name')
                     ])
             ]),

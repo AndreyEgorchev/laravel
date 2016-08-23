@@ -22,10 +22,6 @@ class CreateImagesTable extends Migration
             $table->integer('specialist_id')->unsigned();
             $table->timestamps();
 
-            $table->foreign('specialists_id')
-                ->references('id')
-                ->on('specialists')
-                ->onDelete('cascade');
         });
     }
 
