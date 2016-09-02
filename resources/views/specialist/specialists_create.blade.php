@@ -7,7 +7,10 @@
             <h1>
                 Create
             </h1>
-            {!! Form::open(array('route'=>'specialists.store', 'files'=>true)) !!}
+            {!! Form::open(array(
+            'route'=>'specialists.store',
+            'files'=>true
+            )) !!}
             <div class="form-group">
                 {!! Form::label('first_name') !!}
                 {!! Form::text('first_name', Request::old('first_name'),['class'=>'form-control']) !!}

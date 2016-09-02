@@ -277,9 +277,12 @@ class AuthController extends Controller
     }
 
     public function profile($id){
-//        dd($id);
         $user = Sentinel::findById($id);
 //        $specialists=Specialist::find($id);
         return view('auth.profile',['user' => $user]);
+    }
+    public function edit($id){
+        $user = Sentinel::findById($id);
+        return view('auth.edit')->withTask($user);
     }
 }

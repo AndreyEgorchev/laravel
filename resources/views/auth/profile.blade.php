@@ -9,4 +9,7 @@
             <h1>Останній захід: {{ $user->last_login }}</h1>
         </section>
     </div>
+  <a href="{{ url('/profile/edit',Sentinel::getUser()->id) }}"><i class="fa fa-btn fa-sign-out"></i>Profile</a>
 @stop
+
+

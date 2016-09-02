@@ -51,4 +51,6 @@ Route::group(['middleware' => ['web']], function () {
 // о том, что письмо отправлено и надо заглянуть в почтовый ящик.
     Route::get('wait', 'AuthController@wait');
     Route::get('profile/{id}', 'AuthController@profile');
+    Route::get('profile/edit/{id}', 'AuthController@edit');
+    
 });
