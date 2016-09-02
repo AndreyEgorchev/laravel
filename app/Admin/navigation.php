@@ -23,6 +23,15 @@ use SleepingOwl\Admin\Navigation\Page;
 
 return [
     [
+        'title' => 'Мета теги',
+        'icon'  => ' fa fa-tags',
+        'pages' => [
+            (new Page(\App\Meta_tags::class))
+                ->setIcon('fa fa-tags')
+                ->setPriority(0),
+        ]
+    ],
+    [
         'title' => 'Dashboard',
         'icon'  => 'fa fa-dashboard',
         'url'   => route('admin.dashboard'),
@@ -35,13 +44,13 @@ return [
     ],
     [
         'title' => 'Спеціалісти',
-        'icon'  => 'fa fa-exclamation-circle',
+        'icon'  => 'fa fa-user-md',
         'pages' => [
             (new Page(\App\Specialist::class))
-                ->setIcon('fa fa-fax')
+                ->setIcon('fa fa-user-md')
                 ->setPriority(0),
             (new Page(\App\Speciality::class))
-                ->setIcon('fa fa-fax')
+                ->setIcon('fa fa-group')
                 ->setPriority(0),
         ]
     ],
@@ -61,7 +70,15 @@ return [
 
         ]
     ],
-
+    [
+        'title' => 'Стоірнки',
+        'icon'  => ' fa fa-file',
+        'pages' => [
+            (new Page(\App\Article::class))
+                ->setIcon('fa fa-file-o')
+                ->setPriority(0),
+        ]
+    ],
 
 
     // Examples

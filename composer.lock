@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "3c8ed11bcc73a114f236e0a47347a455",
-    "content-hash": "3fa280a92451925bdc28f8766eaf1d77",
+    "hash": "16863a3bdd0beb0a1c8280f6e21072aa",
+    "content-hash": "e65190684bee9b4823d332df51088594",
     "packages": [
         {
             "name": "caouecs/laravel-lang",
@@ -1313,16 +1313,16 @@
         },
         {
             "name": "laravelrus/sleepingowl",
-            "version": "4.55.51",
+            "version": "4.60.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/LaravelRUS/SleepingOwlAdmin.git",
-                "reference": "85f63decea171ab60ebb6996dff2f3774055fa87"
+                "reference": "bdd454d735513752640ccfa5189ab9f21e08d17e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/LaravelRUS/SleepingOwlAdmin/zipball/85f63decea171ab60ebb6996dff2f3774055fa87",
-                "reference": "85f63decea171ab60ebb6996dff2f3774055fa87",
+                "url": "https://api.github.com/repos/LaravelRUS/SleepingOwlAdmin/zipball/bdd454d735513752640ccfa5189ab9f21e08d17e",
+                "reference": "bdd454d735513752640ccfa5189ab9f21e08d17e",
                 "shasum": ""
             },
             "require": {
@@ -1374,7 +1374,7 @@
                 "crud",
                 "laravel"
             ],
-            "time": "2016-08-11 06:46:16"
+            "time": "2016-08-15 05:51:11"
         },
         {
             "name": "league/flysystem",

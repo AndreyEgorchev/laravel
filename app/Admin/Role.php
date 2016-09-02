@@ -29,7 +29,7 @@ AdminSection::registerModel(Role::class, function (ModelConfiguration $model) {
                         AdminFormElement::text('name', 'Название роли')->required()
                     ], 3)
                     ->addColumn([
-                        AdminFormElement::text('slug', 'Роль')->required()
+                        AdminFormElement::text('slug', 'Роль')->required()->readonly()
                     ], 3)
                     ->addColumn([
                         AdminFormElement::select('permits', 'Права доступа')->setModelForOptions(new \App\Permit())->setDisplay('name')

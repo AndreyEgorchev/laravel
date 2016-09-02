@@ -35,8 +35,10 @@ class User extends EloquentUser
     public function setTherolesAttribute($roles)
     {
         $this->theroles()->detach();
-        if ( ! $roles) return;
-        if ( ! $this->exists) $this->save();
+        if ( ! $roles)
+            return;
+        if ( ! $this->exists)
+            $this->save();
         $this->theroles()->attach($roles);
     }
 

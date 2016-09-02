@@ -13,7 +13,7 @@ class Role extends EloquentRole
 
     public function setPermitsAttribute($permits)
     {
-
+        
         // устанавливаем новый набор прав для роли
         $this->setPermissions([]);
         if (isset($permits))
