@@ -276,4 +276,10 @@ class AuthController extends Controller
         return Redirect::intended('/');
     }
 
+    public function profile($id){
+//        dd($id);
+        $user = Sentinel::findById($id);
+//        $specialists=Specialist::find($id);
+        return view('auth.profile',['user' => $user]);
+    }
 }
