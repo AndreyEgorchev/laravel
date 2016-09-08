@@ -2,6 +2,14 @@
  * Created by Andrey on 03.08.2016.
  */
 $(document).ready(function() {
+    $('#thumbs').delegate('img','click', function(){
+        $('#largeImage').attr('src',$(this).attr('src').replace('thumb','large'));
+        $('#description').html($(this).attr('alt'));
+    });
+});
+
+
+$(document).ready(function() {
     $(".special_select").select2({ width: '25%' });
 });
 $(document).ready(function() {

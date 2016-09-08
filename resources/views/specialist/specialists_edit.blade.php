@@ -7,10 +7,7 @@
             <h1>
                 Create
             </h1>
-            {!! Form::model($task, [
-                'method' => 'PATCH',
-                'route' => ['specialists.update', $task->id]
-            ]) !!}
+            {!! Form::model($task, ['method' => 'PATCH','route' => ['specialists.update', $task->id]]) !!}
             <div class="form-group">
                 {!! Form::label('first_name') !!}
                 {!! Form::text('first_name', null,['class'=>'form-control']) !!}

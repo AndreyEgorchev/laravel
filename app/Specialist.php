@@ -71,20 +71,22 @@ class Specialist extends Model
         foreach ($array_city as $key){
             $city[]=$citymodel->getNameCity($key);
         }
+
         foreach ($city as $key){
             $city_name[]=$key->city_ua;
         }
+
         return $city_name[0].', '.$city_name[1].', '.$city_name[2];
     }
     public static function boot(){
         parent::boot();
         static::creating(function($model){
-//            dd($model);
             Session::set('array_image', $model->image);  //add image in session
             unset($model->image);                        //delete image on array model
         });
         static::created(function($model){
-            $array_image = Session::get('array_image');  //get image with session
+            $array_image = Session::get('array_image'); //get image with session
+            if (isset($array_image)){
             foreach ($array_image as $item) {            //add image with id in field specialist_id
                 $img= new Images($array_image);
                 list($parent_folder, $child_folder, $nameImage,) = explode("/", $item);
@@ -93,19 +95,21 @@ class Specialist extends Model
                 $img['pathName']=$parent_folder.'/'.$child_folder.'/';
                 $img->save();
             }
+            }
         });
         static::updating(function($model){
-//            dd($model);
-            foreach ($model->image as $item) {
-                $img= new Images($model->image);
-                list($parent_folder, $child_folder, $nameImage,) = explode("/", $item);
-                $img['originalName']=$nameImage;
-                $img['specialist_id']=$model->id;
-                $img['pathName']=$parent_folder.'/'.$child_folder.'/';
-                $img->save();
-            }
+            if (isset($array_image)) {
+                foreach ($model->image as $item) {
+                    $img = new Images($model->image);
+                    list($parent_folder, $child_folder, $nameImage,) = explode("/", $item);
+                    $img['originalName'] = $nameImage;
+                    $img['specialist_id'] = $model->id;
+                    $img['pathName'] = $parent_folder . '/' . $child_folder . '/';
+                    $img->save();
+                }
                 unset($model->image);
 //            dd($model);
+            }
         });
     }
 }

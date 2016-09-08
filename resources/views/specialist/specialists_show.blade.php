@@ -26,15 +26,20 @@
                 @endforeach
             <dt class="list-determination_term">Опис навичків роботи</dt>
             <dt class="list-determination_definition">{{ $specialists->description }}</dt>
-            @foreach ($images as $key)
-{{--                <img src="../public/images/upload/{{ $key->originalName }}" alt="qweqwr">--}}
-                <dt class="list-determination_definition"> <img src="{{asset('../images/uploads/'.$key->originalName)}}"
-                                                                height="150" onclick="changeSizeImage($this)"/>
-                </dt>
-                {{--<img src="{{ asset('uploads/documents/'~item.id~'.'~item.path) }}"--}}
-            @endforeach
+            <div id="page">
+                <div id="gallery">
+                    <div id="panel">
+                        <img id="largeImage" src="{{asset('../images/uploads/'.$images[0]->originalName)}}" height="auto" style="max-width:577px; width: 100%;" />
+                        {{--<div id="description">1st image description</div>--}}
+                    </div>
+                    <div id="thumbs">
+                        @foreach ($images as $key)
+                        <img src="{{asset('../images/uploads/'.$key->originalName)}}" height="64" alt="1st image description" />
+                        @endforeach
+                    </div>
+                </div>
+            </div>
                 <p>
-
                     <a href="{{ route('specialists.edit', $specialists->id) }}" class="btn btn-primary">Edit Task</a>
                 </p>
 

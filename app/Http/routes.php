@@ -50,7 +50,6 @@ Route::group(['middleware' => ['web']], function () {
 // Сервисная страничка, показываем после заполнения рег формы, формы сброса и т.
 // о том, что письмо отправлено и надо заглянуть в почтовый ящик.
     Route::get('wait', 'AuthController@wait');
-    Route::get('profile/{id}', 'AuthController@profile');
-    Route::get('profile/edit/{id}', 'AuthController@edit');
-    
+    Route::get('profile/{id}/', 'AuthController@profile');
 });
+$router->resource('auth','AuthController');

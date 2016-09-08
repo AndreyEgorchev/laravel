@@ -5,12 +5,13 @@
     "license": "MIT",
     "type": "project",
     "require": {
-        "php": ">=5.5.9",
+        "php": ">=5.5.28",
         "laravel/framework": "5.2.*",
-        "laravelrus/sleepingowl": "4.60.0",
+        "laravelrus/sleepingowl": "4.60.13",
         "laravelcollective/html": "5.2.*",
         "cartalyst/sentinel": "2.0.*",
-        "caouecs/laravel-lang": "~3.0"
+        "caouecs/laravel-lang": "~3.0",
+        "intervention/image": "^2.3"
 
     },
     "require-dev": {

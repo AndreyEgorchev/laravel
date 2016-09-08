@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Cartalyst\Sentinel\Checkpoints\NotActivatedException;
 use Cartalyst\Sentinel\Checkpoints\ThrottlingException;
 
@@ -15,7 +16,7 @@ use Validator;
 use Mail;
 use Storage;
 use CurlHttp;
-
+use Image;
 class AuthController extends Controller
 {
 
@@ -68,7 +69,7 @@ class AuthController extends Controller
             $remember = (bool) $request->remember;
             if (Sentinel::authenticate($request->all(), $remember))
             {
-                return Redirect::intended('/admin');
+                return Redirect::intended('/');
             }
             $errors = 'Неправильный логин или пароль.';
       
@@ -100,7 +101,7 @@ class AuthController extends Controller
             $delay = $e->getDelay();
             $errors = "Ваш аккаунт блокирован на {$delay} секунд.";
         }
-        return Redirect::to('admin')
+        return Redirect::to('/')
             ->withErrors($errors)
             ->withInput();
     }
@@ -276,7 +277,7 @@ class AuthController extends Controller
         return Redirect::intended('/');
     }
 
-    public function profile($id){
+    public function profile(Request $request,$id){
         $user = Sentinel::findById($id);
 //        $specialists=Specialist::find($id);
         return view('auth.profile',['user' => $user]);
@@ -284,5 +285,27 @@ class AuthController extends Controller
     public function edit($id){
         $user = Sentinel::findById($id);
         return view('auth.edit')->withTask($user);
+    }
+    public function update(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+//
+        $this->validate($request, [
+            'first_name' => 'required',
+            'last_name' => 'required'
+        ]);
+
+        $input = $request->all();
+        $image = $request->file('avatar');
+
+        $destinationPath = 'images/uploads/avatars';
+        // Get the orginal filname or create the filename of your choice
+        $filename = $image->getClientOriginalName();
+//        dd($filename);
+        // Copy the file in our upload folder
+        $image->move($destinationPath, $filename);
+        $input['avatar']=$filename;
+        $user->fill($input)->save();
+        return redirect()->back();
     }
 }

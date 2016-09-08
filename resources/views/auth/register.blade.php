@@ -10,7 +10,7 @@
     {!! Form::open() !!}
     @include('widgets.form._formitem_text', ['name' => 'email', 'title' => 'Email', 'placeholder' => 'Email','class'=> "form-control" ])
     @include('widgets.form._formitem_password', ['name' => 'password', 'title' => 'Пароль', 'placeholder' => 'Пароль' ])
-    @include('widgets.form._formitem_password', ['name' => 'password_confirm', 'title' => 'Подтверждение пароля', 'placeholder' => 'Пароль' ])
+    @include('widgets.form._formitem_password', ['name' => 'password_confirm', 'title' => 'Подтверждение пароля', 'placeholder' => 'Подтверждение пароля' ])
     @include('widgets.form._formitem_btn_submit', ['title' => 'Регистрация'])
     {!! Form::close() !!}
                         </div>

@@ -33,12 +33,14 @@
                     <li><a href="{{ url('/register') }}">Register</a></li>
                 @else
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="position:relative; ">
+                            <img src="{{asset('../images/uploads/avatars/'.Sentinel::getUser()->avatar)}}" style="width:32px; height: 32px; top:10px; left:10px; border-radius: 50%; margin-right: 25px;">
                             {{ Sentinel::getUser()->email }} <span class="caret"></span>
                         </a>
 
                         <ul class="dropdown-menu" role="menu">
                             <li><a href="{{ url('/profile',Sentinel::getUser()->id) }}"><i class="fa fa-btn fa-sign-out"></i>Profile</a></li>
+                            <li><a href="{{ url('/admin') }}"><i class="fa fa-btn fa-sign-out"></i>Admin panel</a></li>
                             <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
 
                         </ul>
