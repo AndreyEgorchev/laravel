@@ -22,6 +22,7 @@ Route::get('specialists/region','SpecilistController@getRegion');
 Route::post('specialists/city_first','SpecilistController@getCity_first');
 Route::post('specialists/city_second','SpecilistController@getCity_second');
 Route::post('specialists/city_third','SpecilistController@getCity_third');
+Route::post('specialists/filter','SpecilistController@getFilter');
 Route::group(['middleware' => ['web']], function () {
     /**
      * Route for auth system

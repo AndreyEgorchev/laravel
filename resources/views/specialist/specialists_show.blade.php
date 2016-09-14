@@ -4,11 +4,7 @@
     <div class="container">
 
         <div class="content">
-
-
-
                 <dt class="list-determination_definition">{{ $specialists->first_name }}</dt>
-
                 <dt class="list-determination_definition">{{ $specialists->last_name }}</dt>
 
                 <dt class="list-determination_definition">{{ $specialists->phone_number }}</dt>
