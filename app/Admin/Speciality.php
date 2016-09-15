@@ -31,17 +31,17 @@ AdminSection::registerModel(Speciality::class, function (ModelConfiguration $mod
                 ], 3)
 
         ]);
-              $tabs = AdminDisplay::tabbed([
-            'Contakt' => new \SleepingOwl\Admin\Form\FormElements([
-                AdminFormElement::columns()
-                    ->addColumn([
-                        AdminFormElement::text('specialty_name', 'specialty_name')->required()
-                    ], 3)
-            ]),
+//              $tabs = AdminDisplay::tabbed([
+//            'Contakt' => new \SleepingOwl\Admin\Form\FormElements([
+//                AdminFormElement::columns()
+//                    ->addColumn([
+//                        AdminFormElement::text('specialty_name', 'specialty_name')->required()
+//                    ], 3)
+//            ]),
 
-        ]);
-        $form->addElement($tabs);
-        $form->addBody(AdminFormElement::image('photo', 'Photo'));
+//        ]);
+//        $form->addElement($tabs);
+//        $form->addBody(AdminFormElement::image('photo', 'Photo'));
         $form->getButtons()
             ->setSaveButtonText('Save contact')
             ->hideCancelButton();

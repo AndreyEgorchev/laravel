@@ -22,14 +22,20 @@
                     <a href="#">По населеному пункту</a>
                 </div>
                 <div id="filter22" class="city_second">
-                    <select size="1" name="region" class="filter2" required>
-                        <option value="0">--Виберіть Населений пункт--</option>
-                        @foreach($city as $key )
-                            <option value="{{ $key->id }}">
-                                {{ $key->city_ua }}
-                            </option>
-                        @endforeach
-                    </select>
+                    <p>
+                        <select size="1" name="region" class="city_filter" required>
+                            <option value="0" selected>--Виберіть Область--</option>
+                            @foreach($region as $key )
+                                <option value="{{ $key->id }}">
+                                    {{ $key->region_ua }}
+                                </option>
+                            @endforeach
+                        </select>
+                    <div class="first">
+                        <span class="area_first">
+
+                        </span>
+                    </div>
                 </div>
                 <div id="filter3">
                     <a href="#">По спеціальності</a>
@@ -54,10 +60,8 @@
                     <dt class="list-determination_definition">{{ $specialist->email }}</dt>
                     <dt class="list-determination_definition">{{ $specialist->FullCity }}</dt>
                     <p>
-                        <a href="{{ route('specialists.show', $specialist->id) }}" class="btn btn-info">View
-                            Task</a>
-                        <a href="{{ route('specialists.edit', $specialist->id) }}" class="btn btn-primary">Edit
-                            Task</a>
+                        <a href="{{ route('specialists.show', $specialist->id) }}" class="btn btn-info">View Task</a>
+                        <a href="{{ route('specialists.edit', $specialist->id) }}" class="btn btn-primary">Edit Task</a>
                     </p>
                 @endforeach
             </div>

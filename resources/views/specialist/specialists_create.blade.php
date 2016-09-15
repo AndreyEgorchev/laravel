@@ -143,9 +143,9 @@
 
                             </select>
                         <div class="second">
-    <span class="area_second">
+                            <span class="area_second">
 
-    </span>
+                            </span>
                         </div>
                         <div>
                             <input id="showImg3" type="button" value="Add city"/>

@@ -6,15 +6,16 @@ $(document).ready(function () {
         $('#largeImage').attr('src', $(this).attr('src').replace('thumb', 'large'));
         $('#description').html($(this).attr('alt'));
     });
-});
-
-
-$(document).ready(function () {
     $(".special_select").select2({width: '25%'});
-});
-$(document).ready(function () {
     $(".regionId_first").select2({width: '100%', placeholder: "Select a state"});
+    $(".regionId_second").select2({width: '100%', placeholder: "Select a state"});
+    $(".regionId_third").select2({width: '100%', placeholder: "Select a state"});
+    $(".filter1").select2({width: '100%', placeholder: "Select a state"});
+    $(".filter2").select2({width: '100%', placeholder: "Select a state"});
+    $(".filter3").select2({width: '100%', placeholder: "Select a state"});
+    $(".city_filter").select2({width: '100%', placeholder: "Select a state"});
 });
+
 
 $(function () {
     var id = $(".regionId_first").val();
@@ -42,10 +43,30 @@ $(function () {
 
 });
 
-$(document).ready(function () {
-    $(".regionId_second").select2({width: '100%', placeholder: "Select a state"});
-});
+$(function () {
 
+
+    $('.city_filter').change(function () {
+        var id = $(".city_filter").val();
+        if (id == 0) {
+
+        }
+        $.ajax({
+            type: "POST",
+            url: './specialists/city_filter',
+            headers: {
+                'X-CSRF-Token': $('input[name="_token"]').val()
+            },
+            data: {city_filter: id},
+            success: function (data) {
+                $(".area_first").html(data);
+                $(".filter2").select2({width: '100%', placeholder: "Select a city"});
+                $("span.area_first").removeClass("select2-hidden-accessible");
+            }
+        });
+    });
+
+});
 $(function () {
     var id = $(".regionId_second").val();
 
@@ -72,9 +93,6 @@ $(function () {
 
 });
 
-$(document).ready(function () {
-    $(".regionId_third").select2({width: '100%', placeholder: "Select a state"});
-});
 
 $(function () {
     var id = $(".regionId_third").val();
@@ -101,6 +119,7 @@ $(function () {
     });
 
 });
+
 $(document).ready(function () {
     $('#showImg1').on("click", function () {
         $('#hideImg').show();
@@ -111,36 +130,24 @@ $(document).ready(function () {
     $('#showImg3').on("click", function () {
         $('#hideImg33').show();
     });
-});
-$(document).ready(function () {
     $("#filter1").on("click", function () {
         $("#filter11").toggle(500);
     });
-});
-$(document).ready(function () {
     $("#filter2").on("click", function () {
         $("#filter22").toggle(500);
     });
-});
-$(document).ready(function () {
     $("#filter3").on("click", function () {
         $("#filter33").toggle(500);
     });
-});
-$(document).ready(function () {
-    $(".filter1").select2({width: '100%', placeholder: "Select a state"});
-});
-$(document).ready(function () {
-    $(".filter2").select2({width: '100%', placeholder: "Select a state"});
-});
-$(document).ready(function () {
-    $(".filter3").select2({width: '100%', placeholder: "Select a state"});
 });
 
 $(function () {
     $('.col-sm-3').change(function () {
         var filter1_id = $(".filter1").val();
         var filter2_id = $(".filter2").val();
+        if (!filter2_id){
+            filter2_id=0;
+        }
         var filter3_id = $(".filter3").val();
 
         $.ajax({

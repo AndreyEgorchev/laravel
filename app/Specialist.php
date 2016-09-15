@@ -89,26 +89,20 @@ class Specialist extends Model
         if (isset($filter2_id) && !empty($filter2_id)) {
             $specialist = Specialist::all();
             foreach ($specialist as $item) {
-                $city_1[$item->id] = $item->city_first;
-                $city_2[$item->id] = $item->city_second;
-                $city_3[$item->id] = $item->city_third;
+                $city_1[] = 0;
+                if ($item->city_first == $filter2_id) {
+                    $city_1[] = $item->id;
+                }
+                $city_2[] = 0;
+                if ($item->city_second == $filter2_id) {
+                    $city_2[] = $item->id;
+                }
+                $city_3[] = 0;
+                if ($item->city_third == $filter2_id) {
+                    $city_3[] = $item->id;
+                }
             }
-            foreach ($city_1 as $key => $val) {
-                $ss_1[] = 0;
-                if (trim($val) == $filter2_id)
-                    $ss_1[] = $key;
-            }
-            foreach ($city_2 as $key => $val) {
-                $ss_2[] = 0;
-                if (trim($val) == $filter2_id)
-                    $ss_2[] = $key;
-            }
-            foreach ($city_3 as $key => $val) {
-                $ss_3[] = 0;
-                if (trim($val) == $filter2_id)
-                    $ss_3[] = $key;
-            }
-            $city = array_merge($ss_1, $ss_2, $ss_3);
+            $city = array_merge($city_1, $city_2, $city_3);
             $array = array_diff($city, ["0"]);
             if (count($array) < 1) {
                 $array[] = 0;
@@ -146,7 +140,7 @@ class Specialist extends Model
         });
         static::created(function ($model) {
             $array_image = Session::get('array_image'); //get image with session
-            if (empty($array_image)) {
+            if ($array_image) {
                 foreach ($array_image as $item) {            //add image with id in field specialist_id
                     $img = new Images($array_image);
                     list($parent_folder, $child_folder, $nameImage,) = explode("/", $item);

@@ -39,11 +39,13 @@ class SpecilistController extends Controller
     {
         $specialists = Specialist::all();
         $speciality = Speciality::all();
+        $region = Region::all();
         $city = City::all();
 //        dd($specialists);
         return view('specialist.specialists', ['specialists' => $specialists,
             'speciality' => $speciality,
-            'city' => $city
+            'city' => $city,
+            'region'=>$region
         ]);
     }
 
@@ -107,6 +109,7 @@ class SpecilistController extends Controller
     public function show(City $citymodel, Speciality $specmodel, $id, Images $imagemodel)
     {
         $specialists = Specialist::find($id);
+
         $array_city = array($specialists->city_first, $specialists->city_second, $specialists->city_third);
         foreach ($array_city as $key) {
             $city[] = $citymodel->getNameCity($key);
@@ -194,6 +197,26 @@ class SpecilistController extends Controller
         }
         return new Response();
     }
+    public function getCity_filter(Request $request)
+    {
+
+        if (isset($_POST['city_filter']) && !empty($_POST['city_filter'])) {
+            $city_filter = intval($_POST['city_filter']);
+
+            $city = City::latest('city_ua')
+                ->where('region', '=', $city_filter)
+                ->get();
+
+            echo "<select name='city_first' class='filter2'>";
+            echo " <option>--Виберіть Місто--</option>";
+            foreach ($city as $key) {
+                echo " <option value=" . $key['id'] . ">" . $key['city_ua'] . "</option>";
+            }
+            echo "</select>";
+        }
+        return new Response();
+    }
+
 
     public function getCity_second(Request $request)
     {
@@ -235,15 +258,14 @@ class SpecilistController extends Controller
         return new Response();
     }
 
-    public function getFilter(Request $request,Specialist $specmodel)
+    public function getFilter(Request $request, Specialist $specmodel)
     {
-        $filter1_id = intval($_POST['filter1_id']);
-        $filter3_id = intval($_POST['filter3_id']);
-        $city=$specmodel->getAllcity(intval($_POST['filter2_id']));
-        if ($filter1_id==0 && $filter3_id==0 && $city==0){
+        $city = $specmodel->getAllcity(intval($_POST['filter2_id']));
+        if (intval($_POST['filter1_id']) == 0 && intval($_POST['filter3_id']) == 0 && $city == 0 ) {
             $specialists = Specialist::all();
-        }else{
-            $specialists=$specmodel->filter($filter1_id,$filter3_id,$city);
+            
+        } else {
+            $specialists = $specmodel->filter(intval($_POST['filter1_id']), intval($_POST['filter3_id']), $city);
         }
         foreach ($specialists as $specialist) {
             echo "<dt class='list-determination_definition'>" . $specialist->first_name . "</dt>";
@@ -252,7 +274,7 @@ class SpecilistController extends Controller
             echo "<dt class='list-determination_definition'>" . $specialist->email . "</dt>";
             echo "<dt class='list-determination_definition'>" . $specialist->FullCity . "</dt>";
             echo " <p>";
-            echo "  <a href=" . route('specialists.show', $specialist->id) . " class='btn btn-info'>View Task</a>";
+            echo "<a href=" . route('specialists.show', $specialist->id) . " class='btn btn-info'>View Task</a>";
             echo "<a href=" . route('specialists.edit', $specialist->id) . " class='btn btn-primary'>Edit  Task</a>";
             echo "</p>";
         }
