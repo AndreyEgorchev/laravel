@@ -261,11 +261,10 @@ class SpecilistController extends Controller
     public function getFilter(Request $request, Specialist $specmodel)
     {
         $city = $specmodel->getAllcity(intval($_POST['filter2_id']));
-        if (intval($_POST['filter1_id']) == 0 && intval($_POST['filter3_id']) == 0 && $city == 0 ) {
+        if (empty($_POST['filter1_id']) && intval($_POST['filter3_id']) == 0 && $city == 0 ) {
             $specialists = Specialist::all();
-            
         } else {
-            $specialists = $specmodel->filter(intval($_POST['filter1_id']), intval($_POST['filter3_id']), $city);
+            $specialists = $specmodel->filter($_POST['filter1_id'], intval($_POST['filter3_id']), $city);
         }
         foreach ($specialists as $specialist) {
             echo "<dt class='list-determination_definition'>" . $specialist->first_name . "</dt>";

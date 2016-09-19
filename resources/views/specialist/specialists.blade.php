@@ -5,18 +5,11 @@
         <div class="row">
             <div class="col-sm-3">
                 {!! Form::open() !!}
-                <div id="filter1">
-                    <a href="#">По прізвищу</a>
-                </div>
-                <div id="filter11" class="city_second">
-                    <select size="1" name="region" class="filter1" required>
-                        <option value="0">--Виберіть Прізвище--</option>
-                        @foreach($specialists as $key )
-                            <option value="{{ $key->id }}">
-                                {{ $key->last_name }}
-                            </option>
-                        @endforeach
-                    </select>
+                <div class="input-group custom-search-form">
+                    <input type="text" class="form-control" name="search" placeholder="Search...">
+                        <span class="input-group-btn">
+                            <img src="{{asset('../img/search.png')}}" >
+                        </span>
                 </div>
                 <div id="filter2">
                     <a href="#">По населеному пункту</a>

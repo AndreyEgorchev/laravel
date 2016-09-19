@@ -143,7 +143,7 @@ $(document).ready(function () {
 
 $(function () {
     $('.col-sm-3').change(function () {
-        var filter1_id = $(".filter1").val();
+        var filter1_id = $(".form-control").val();
         var filter2_id = $(".filter2").val();
         if (!filter2_id){
             filter2_id=0;

@@ -19,7 +19,8 @@
     display: inline-block;
     margin: 0;
     position: relative;
-    vertical-align: middle
+    vertical-align: middle;
+    width: 250px!important;
 }
 
 .select2-container .select2-selection--single {
@@ -15788,7 +15789,7 @@ table.dataTable thead .sorting:after {
 
 .form-element-files__item {
     float: left;
-    width: 206px;
+    width: auto;
     border: 1px solid #d8d8d8;
     margin-bottom: 10px;
     margin-right: 10px;

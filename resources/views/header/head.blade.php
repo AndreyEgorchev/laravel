@@ -6,7 +6,7 @@
 
 <link href="{{ asset('css/beauty.css') }}" rel="stylesheet" />
 <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script type="text/javascript" src="{{asset('JS/select region.js')}}"></script>
 {{--<script type="text/javascript" src="{{asset('js/multiple_image.js')}}"></script>--}}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
@@ -16,13 +16,5 @@
 
 <!-- Styles -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-{{--<link href="{{ elixir('css/app.css') }}" rel="stylesheet">--}}
-<!-- Generic page styles -->
-<!-- blueimp Gallery styles -->
-{{--<link rel="stylesheet" href="//blueimp.github.io/Gallery/css/blueimp-gallery.min.css">--}}
-{{--<!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->--}}
-{{--<link rel="stylesheet" href="{{ asset('css/jquery.fileupload.css') }}" rel="stylesheet">--}}
-{{--<link rel="stylesheet" href="{{ asset('css/jquery.fileupload-ui.css') }}" rel="stylesheet">--}}
-<!-- CSS adjustments for browsers with JavaScript disabled -->
 <link href="{{ asset('css/styles.css') }}" rel="stylesheet" />
 

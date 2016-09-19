@@ -119,7 +119,7 @@ class Specialist extends Model
     {
         $specialists = Specialist::latest('last_name')
             ->when($filter1_id, function ($query) use ($filter1_id) {
-                return $query->where('id', $filter1_id);
+                return $query->where('last_name', $filter1_id);
             })
             ->when($filter3_id, function ($query) use ($filter3_id) {
                 return $query->where('specialty_name', $filter3_id);
