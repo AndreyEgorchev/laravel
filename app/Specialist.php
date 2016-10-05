@@ -4,8 +4,8 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Images;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
-use phpDocumentor\Reflection\Types\Null_;
 
 /**
  * Class Specialist
@@ -24,11 +24,7 @@ class Specialist extends Model
         'link_vk',
         'link_instagram',
         'link_fb',
-        'city_first',
-        'city_second',
-        'city_third',
-        'specialty_name',
-
+        'id_user'
     ];
 
     /**
@@ -47,6 +43,9 @@ class Specialist extends Model
         return $this->belongsToMany('App\Meta_tags', 'spec_meta_tags', 'specialist_id', 'meta_tags_id');
     }
 
+    /**
+     * @param $tags
+     */
     public function setMetatagsAttribute($tags)
     {
         $this->meta()->detach();
@@ -59,78 +58,160 @@ class Specialist extends Model
         $this->meta()->attach($tags);
     }
 
+    /**
+     * @param $tags
+     * @return array
+     */
     public function getMetatagsAttribute($tags)
     {
         return array_pluck($this->meta()->get(['id'])->toArray(), 'id');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function city()
+    {
+        return $this->belongsToMany('App\City', 'spec_city', 'specialist_id', 'city_id');
+    }
+
+    /**
+     * @param $citys
+     */
+    public function setCitysAttribute($citys)
+    {
+        $this->city()->detach();
+        if (!$citys) {
+            return;
+        }
+        if (!$this->exists) {
+            $this->save();
+        }
+        $this->city()->attach($citys);
+    }
+
+    /**
+     * @param $citys
+     * @return array
+     */
+    public function getCitysAttribute($citys)
+    {
+        $citymodel = new City();
+        $ss = array_pluck($this->city()->get(['id'])->toArray(), 'id');
+        foreach ($ss as $key) {
+            $city[] = $citymodel->getNameCity($key);
+        }
+        return $city[0] . ', ' . $city[1] . ', ' . $city[2];
+    }
+
+    /**
+     * @return string
+     */
     public function getFullNameAttribute()
     {
         return $this->last_name . ' ' . $this->first_name;
     }
 
-    public function getFullCityAttribute()
+    /**
+     * @param $id
+     * @return array
+     */
+    public function getCityForSpec($id)
     {
-        $citymodel = new City();
-        $array_city = array($this->city_first, $this->city_second, $this->city_third);
-        foreach ($array_city as $key) {
-            $city[] = $citymodel->getNameCity($key);
-        }
 
-        foreach ($city as $key) {
-            $city_name[] = $key->city_ua;
-        }
+        $spec = Specialist::find($id);
+        $array_city = $spec->city;
+        return $array_city;
+    }
 
-        return $city_name[0] . ', ' . $city_name[1] . ', ' . $city_name[2];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function specialitys()
+    {
+        return $this->belongsToMany('App\Speciality', 'spec_speciality', 'specialist_id', 'speciality_id');
+    }
+
+    /**
+     * @param $specialitys
+     */
+    public function setSpecialitysAttribute($specialitys)
+    {
+        $this->specialitys()->detach();
+        if (!$specialitys) {
+            return;
+        }
+        if (!$this->exists) {
+            $this->save();
+        }
+        $this->specialitys()->attach($specialitys);
+    }
+
+    /**
+     * @param $specialitys
+     * @return array
+     */
+    public function getSpecialitysAttribute($specialitys)
+    {
+        return array_pluck($this->specialitys()->get(['id'])->toArray(), 'id');
+    }
+
+    public function getSpecialityForSpec($id)
+    {
+        $specialitymodel = new Speciality();
+        $spec = Specialist::find($id);
+        foreach ($spec->specialitys as $key) {
+            $array_spec[] = $specialitymodel->getNameSpeciality($key);
+        }
+        return $array_spec;
     }
 
     public function getAllcity($filter2_id)
     {
         if (isset($filter2_id) && !empty($filter2_id)) {
-            $specialist = Specialist::all();
-            foreach ($specialist as $item) {
-                $city_1[] = 0;
-                if ($item->city_first == $filter2_id) {
-                    $city_1[] = $item->id;
+            $specialist = DB::table('spec_city')->where('city_id', '=', $filter2_id)->get();
+            if (count($specialist) > 1) {
+                foreach ($specialist as $item) {
+                    $array[] = $item->specialist_id;
                 }
-                $city_2[] = 0;
-                if ($item->city_second == $filter2_id) {
-                    $city_2[] = $item->id;
-                }
-                $city_3[] = 0;
-                if ($item->city_third == $filter2_id) {
-                    $city_3[] = $item->id;
-                }
-            }
-            $city = array_merge($city_1, $city_2, $city_3);
-            $array = array_diff($city, ["0"]);
-            if (count($array) < 1) {
-                $array[] = 0;
                 return $array;
             } else {
-                return $array;
+                return null;
             }
         }
-
-
     }
 
-    public function filter($filter1_id,$filter3_id,$city)
+    /**
+     * @param $filter1_id
+     * @param $filter3_id
+     * @param $city
+     * @return mixed
+     */
+    public function filter($filter1_id, $filter3_id, $filter2_id)
     {
-        $specialists = Specialist::latest('last_name')
+
+//        $array_specialists = DB::table('specialists')->where('last_name', '=', $filter1_id)->lists('id');
+        $array_speciality_id = DB::table('spec_speciality')->where('speciality_id', '=', $filter3_id)->lists('specialist_id');
+        $array_city_id = DB::table('spec_city')->where('city_id', '=', $filter2_id)->lists('specialist_id');
+
+                $specialists = Specialist::query('last_name')
             ->when($filter1_id, function ($query) use ($filter1_id) {
                 return $query->where('last_name', $filter1_id);
             })
-            ->when($filter3_id, function ($query) use ($filter3_id) {
-                return $query->where('specialty_name', $filter3_id);
+            ->when($filter3_id, function ($query) use ($array_speciality_id) {
+                return $query->whereIn('id', $array_speciality_id);
             })
-            ->when($city, function ($query) use ($city) {
-                return $query->whereIn('id', $city);
+            ->when($filter2_id, function ($query) use ($array_city_id) {
+                return $query->whereIn('id', $array_city_id);
             })
             ->get();
         return $specialists;
     }
 
+    /**
+     *
+     */
     public static function boot()
     {
         parent::boot();

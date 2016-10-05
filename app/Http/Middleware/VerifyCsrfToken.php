@@ -13,6 +13,6 @@ class VerifyCsrfToken extends BaseVerifier
      */
     protected $except = [
         '/home',
-        'admin/specialist/create'
+        
     ];
 }

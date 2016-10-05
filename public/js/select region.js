@@ -6,14 +6,16 @@ $(document).ready(function () {
         $('#largeImage').attr('src', $(this).attr('src').replace('thumb', 'large'));
         $('#description').html($(this).attr('alt'));
     });
-    $(".special_select").select2({width: '25%'});
-    $(".regionId_first").select2({width: '100%', placeholder: "Select a state"});
-    $(".regionId_second").select2({width: '100%', placeholder: "Select a state"});
-    $(".regionId_third").select2({width: '100%', placeholder: "Select a state"});
-    $(".filter1").select2({width: '100%', placeholder: "Select a state"});
-    $(".filter2").select2({width: '100%', placeholder: "Select a state"});
-    $(".filter3").select2({width: '100%', placeholder: "Select a state"});
-    $(".city_filter").select2({width: '100%', placeholder: "Select a state"});
+    $(".special_select_1").select2({width: '100%'});
+    $(".special_select_2").select2({width: '100%'});
+    $(".special_select_3").select2({width: '100%'});
+    $(".regionId_first").select2({width: '100%'});
+    $(".regionId_second").select2({width: '100%'});
+    $(".regionId_third").select2({width: '100%'});
+    $(".filter1").select2({width: '100%'});
+    $(".filter2").select2({width: '100%'});
+    $(".filter3").select2({width: '100%'});
+    $(".city_filter").select2({width: '100%'});
 });
 
 
@@ -121,18 +123,6 @@ $(function () {
 });
 
 $(document).ready(function () {
-    $('#showImg1').on("click", function () {
-        $('#hideImg').show();
-    });
-    $('#showImg2').on("click", function () {
-        $('#hideImg22').show();
-    });
-    $('#showImg3').on("click", function () {
-        $('#hideImg33').show();
-    });
-    $("#filter1").on("click", function () {
-        $("#filter11").toggle(500);
-    });
     $("#filter2").on("click", function () {
         $("#filter22").toggle(500);
     });

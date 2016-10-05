@@ -5,3 +5,4 @@
     {!! Form::password($name, array('placeholder' => $placeholder,'class'=>"form-control" )) !!}
     <p class="help-block">{!! $errors->first($name) !!}</p>
 </div>
+

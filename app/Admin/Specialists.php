@@ -18,7 +18,7 @@ AdminSection::registerModel(Specialist::class, function (ModelConfiguration $mod
         $display->setColumns([
             AdminColumn::link('fullName')->setLabel('Name')
                 ->setWidth('100px'),
-            AdminColumn::text('FullCity')->setLabel('Citys')
+            AdminColumn::text('Citys')->setLabel('Citys')
                 ->setWidth('100px'),
             AdminColumn::lists('meta.name_meta')->setLabel('Meta tags')
                 ->setWidth('100px')
@@ -45,9 +45,9 @@ AdminSection::registerModel(Specialist::class, function (ModelConfiguration $mod
                     ], 3)->addColumn([
                         AdminFormElement::text('email', ' email')->required()
                     ], 3)
-                    ->addColumn([
-                        AdminFormElement::select('specialty_name', 'specialty_name')->setModelForOptions(new Speciality())->setDisplay('specialty_name')
-                    ])
+//                    ->addColumn([
+//                        AdminFormElement::select('specialty_name', 'specialty_name')->setModelForOptions(new Speciality())->setDisplay('specialty_name')
+//                    ])
             ]),
             'Description' => new \SleepingOwl\Admin\Form\FormElements([
                 AdminFormElement::wysiwyg('description', 'Description')->disableFilter()
@@ -64,6 +64,12 @@ AdminSection::registerModel(Specialist::class, function (ModelConfiguration $mod
             ]),
             'Meta tags' => new \SleepingOwl\Admin\Form\FormElements([
                 AdminFormElement::multiselect('meta', 'Тег')->setModelForOptions(new Meta_tags())->setDisplay('name_meta')
+            ]),
+            'Speciality' => new \SleepingOwl\Admin\Form\FormElements([
+                AdminFormElement::columns()
+                    ->addColumn([
+                        AdminFormElement::multiselect('specialitys', 'specialty_name ')->setModelForOptions(new Speciality())->setDisplay('specialty_name')
+                    ], 4)
             ]),
             'Work city' => new \SleepingOwl\Admin\Form\FormElements([
                 AdminFormElement::columns()

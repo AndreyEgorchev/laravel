@@ -15,4 +15,22 @@ class Speciality extends Model
         return $speciality;
 
     }
+    public function specialists()
+    {
+        return $this->belongsToMany('App\Specialist')->withTimestamps();
+    }
+    public function setSpecialistsAttribute($specialists)
+    {
+        $this->specialists()->detach();
+        if ( ! $specialists)
+            return;
+        if ( ! $this->exists)
+            $this->save();
+        $this->specialists()->attach($specialists);
+    }
+
+    public function getSpecialistsAttribute($specialists)
+    {
+        return array_pluck($this->specialists()->get(['id'])->toArray(), 'id');
+    }
 }

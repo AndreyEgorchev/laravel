@@ -2,19 +2,24 @@
 
 @section('content')
     <div class="container">
- {!! Form::open([ 'class'=>"form-signin"]) !!}
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Login</div>
+                    <div class="panel-body">
+                        {!! Form::open([ 'class'=>"form-signin"]) !!}
+                        @include('widgets.form._formitem_text', ['name' => 'email', 'title' => 'Email', 'placeholder' => 'Ваш Email' ])
+                        @include('widgets.form._formitem_password', ['name' => 'password', 'title' => 'Пароль', 'placeholder' => 'Пароль' ])
+                        @include('widgets.form._formitem_checkbox', ['name' => 'remember', 'title' => 'Запомнить меня'] )
+                        @include('widgets.form._formitem_btn_submit', ['title' => 'Вход'])
+                        <p><a href="{{URL::to('/reset')}}">Забыли пароль?</a></p>
 
-   <h2 class="form-signin-heading">Please sign in</h2>
- @include('widgets.form._formitem_text', ['name' => 'email', 'title' => 'Email', 'placeholder' => 'Ваш Email' ])
- @include('widgets.form._formitem_password', ['name' => 'password', 'title' => 'Пароль', 'placeholder' => 'Пароль' ])
-   <div class="checkbox">
-    <label>
-     <input type="checkbox" value="remember-me"> Remember me
-    </label>
-   </div>
- @include('widgets.form._formitem_btn_submit', ['title' => 'Вход'])
- {!! Form::close() !!}
+                        {!! Form::close() !!}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
- </div>
-@stop
+@endsection

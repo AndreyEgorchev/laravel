@@ -17,15 +17,12 @@ class CreateSpecialistsTable extends Migration
             $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();
             $table->string('phone_number')->nullable();
-            $table->string('email')->nullable();
-            $table->string('description')->nullable();
-            $table->string('link_vk')->nullable();
-            $table->string('link_instagram')->nullable();
-            $table->string('link_fb')->nullable();
-            $table->string('city_first')->nullable();
-            $table->string('city_second')->nullable();
-            $table->string('city_third')->nullable();
-            $table->string('specialty_name')->nullable();
+            $table->string('email');
+            $table->string('description');
+            $table->string('link_vk');
+            $table->string('link_instagram');
+            $table->string('link_fb');
+            $table->string('id_user');
             $table->timestamps();
         });
     }

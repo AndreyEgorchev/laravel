@@ -20,9 +20,7 @@
             <!-- Left Side Of Navbar -->
             @if (!Sentinel::guest())
             <ul class="nav navbar-nav">
-                <li><a href="{{ url('/specialists') }}">Home</a></li>
-                <li><a href="{{ url('/admin') }}">Admin panel</a></li>
-                <li><a href="{{ url('specialists/create') }}">Create</a></li>
+                <li><a href="{{ url('/specialists') }}">Specialist</a></li>
             </ul>
             @endif
             <!-- Right Side Of Navbar -->
@@ -34,7 +32,7 @@
                 @else
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="position:relative; ">
-                            <img src="{{asset('../images/uploads/avatars/'.Sentinel::getUser()->avatar)}}" style="width:32px; height: 32px; top:10px; left:10px; border-radius: 50%; margin-right: 25px;">
+                            <img src="{{asset('..'.Sentinel::getUser()->avatar)}}" style="width:32px; height: 32px; top:10px; left:10px; border-radius: 50%; margin-right: 25px;">
                             {{ Sentinel::getUser()->email }} <span class="caret"></span>
                         </a>
 

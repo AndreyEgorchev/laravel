@@ -8,7 +8,7 @@
                 <div class="input-group custom-search-form">
                     <input type="text" class="form-control" name="search" placeholder="Search...">
                         <span class="input-group-btn">
-                            <img src="{{asset('../img/search.png')}}" >
+                            <img src="{{asset('../img/search.png')}}">
                         </span>
                 </div>
                 <div id="filter2">
@@ -51,18 +51,22 @@
                     <dt class="list-determination_definition">{{ $specialist->last_name }}</dt>
                     <dt class="list-determination_definition">{{ $specialist->phone_number }}</dt>
                     <dt class="list-determination_definition">{{ $specialist->email }}</dt>
-                    <dt class="list-determination_definition">{{ $specialist->FullCity }}</dt>
+                    <dt class="list-determination_definition">
+                        @foreach($specialist->cityfull as $city )
+                            {{ $city->city_ua }}
+                        @endforeach
+                    </dt>
+                    <dt class="list-determination_definition">
+                        @foreach($specialist->specialityfull as $speciality )
+
+                            {{ $speciality->specialty_name }}
+                        @endforeach
+                    </dt>
                     <p>
-                        <a href="{{ route('specialists.show', $specialist->id) }}" class="btn btn-info">View Task</a>
-                        <a href="{{ route('specialists.edit', $specialist->id) }}" class="btn btn-primary">Edit Task</a>
+                        <a href="{{ route('specialists.show', $specialist->id) }}" class="btn btn-info">Переглянути профіль</a>
                     </p>
                 @endforeach
             </div>
         </div>
     </div>
-
-
-
-
-
 @endsection

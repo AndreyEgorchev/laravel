@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\User;
 use Cartalyst\Sentinel\Checkpoints\NotActivatedException;
 use Cartalyst\Sentinel\Checkpoints\ThrottlingException;
+use App\Specialist;
 
 use Illuminate\Http\Request;
 use App\Http\Requests;
@@ -66,16 +67,16 @@ class AuthController extends Controller
                 'email' => 'required|email',
                 'password' => 'required',
             ]);
+//            dd($request->all());
             $remember = (bool) $request->remember;
             if (Sentinel::authenticate($request->all(), $remember))
             {
                 return Redirect::intended('/');
             }
             $errors = 'Неправильный логин или пароль.';
-      
-            return redirect()->back()
-                ->withErrors($errors)
-                ->withInput();
+//            echo '1';
+            return redirect()->back()->withErrors($errors)->withInput();
+
         }
         catch (NotActivatedException $e)
         {
@@ -277,10 +278,23 @@ class AuthController extends Controller
         return Redirect::intended('/');
     }
 
-    public function profile(Request $request,$id){
-        $user = Sentinel::findById($id);
-//        $specialists=Specialist::find($id);
-        return view('auth.profile',['user' => $user]);
+    public function profile(Specialist $specialistmodel,$id){
+        $user = User::find($id);
+        $specialists = Specialist::where('id_user',$id)->first();
+
+        if ($specialists){
+            $specialists['cityfull'] = $specialistmodel->getCityForSpec($specialists->id);
+            $specialists['specialityfull'] = $specialistmodel->getSpecialityForSpec($specialists->id);
+            $images = $specialists->images;
+
+            return view('auth.profile', ['user' => $user,
+                'specialists'=>$specialists,
+                'images'=>$images]);
+        }
+
+        return view('auth.profile', ['user' => $user,
+            'specialists'=>$specialists]);
+
     }
     public function edit($id){
         $user = Sentinel::findById($id);
@@ -289,22 +303,28 @@ class AuthController extends Controller
     public function update(Request $request, $id)
     {
         $user = User::findOrFail($id);
-//
+//        dd($request->all());
         $this->validate($request, [
             'first_name' => 'required',
-            'last_name' => 'required'
+            'last_name' => 'required',
+            'email'=>'required|email',
+            'phone'=>'required',
+            'password'=>'required',
+            'password_confirm'=>'required|same:password'
         ]);
 
         $input = $request->all();
+//        dd($input);
         $image = $request->file('avatar');
-
-        $destinationPath = 'images/uploads/avatars';
-        // Get the orginal filname or create the filename of your choice
-        $filename = $image->getClientOriginalName();
+        if ($image) {
+            $destinationPath = 'images/uploads/avatars';
+            // Get the orginal filname or create the filename of your choice
+            $filename = $image->getClientOriginalName();
 //        dd($filename);
-        // Copy the file in our upload folder
-        $image->move($destinationPath, $filename);
-        $input['avatar']=$filename;
+            // Copy the file in our upload folder
+            $image->move($destinationPath, $filename);
+            $input['avatar'] = '/'.$destinationPath.'/'.$filename;
+        }
         $user->fill($input)->save();
         return redirect()->back();
     }

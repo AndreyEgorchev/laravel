@@ -100,7 +100,7 @@ class MigrationCartalystSentinel extends Migration
             $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();
             $table->string('phone')->nullable();
-            $table->string('avatar')->default('default.jpg');
+            $table->string('avatar')->default('/images/uploads/avatars/default.jpg');
             $table->timestamps();
 
             $table->engine = 'InnoDB';
