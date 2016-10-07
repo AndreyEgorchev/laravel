@@ -74,11 +74,11 @@ AdminSection::registerModel(Specialist::class, function (ModelConfiguration $mod
             'Work city' => new \SleepingOwl\Admin\Form\FormElements([
                 AdminFormElement::columns()
                     ->addColumn([
-                        AdminFormElement::select('city_first', 'city_first ')->setModelForOptions(new City())->setDisplay('city_ua')
+                        AdminFormElement::select('city', 'city_first ')->setModelForOptions(new City())->setDisplay('city_ua')
                     ], 4)->addColumn([
-                        AdminFormElement::select('city_second', 'city_second')->setModelForOptions(new City())->setDisplay('city_ua')
+                        AdminFormElement::select('city', 'city_second')->setModelForOptions(new City())->setDisplay('city_ua')
                     ], 4)->addColumn([
-                        AdminFormElement::select('city_third', 'city_third')->setModelForOptions(new City())->setDisplay('city_ua')
+                        AdminFormElement::select('city', 'city_third')->setModelForOptions(new City())->setDisplay('city_ua')
                     ], 4)
             ]),
             'Images' => new \SleepingOwl\Admin\Form\FormElements([

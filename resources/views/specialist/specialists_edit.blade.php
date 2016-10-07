@@ -263,13 +263,16 @@
                 <div id="gallery">
                     <div id="panel">
                         <img id="largeImage" src="{{asset('../images/uploads/'.$task->images[0]->originalName)}}"
-                             height="500px" style="max-width:577px; width: 100%;"/>
-                        {{--<div id="description">1st image description</div>--}}
+                             height="500px" style="max-width:577px; width: auto;"/>
                     </div>
                     <div id="thumbs">
                         @foreach ($task->images as $key)
-                            <img src="{{asset('../images/uploads/'.$key->originalName)}}" height="64"
-                                 alt="1st image description"/>
+                            <div class="img-thumbnail">
+                                <img src="{{asset('../images/uploads/'.$key->originalName)}}" height="64"
+                                     alt="1st image description"/>
+                                <button type="button" title="Удалить" class="btn btn-danger del_image btn-xs"><i
+                                            class="glyphicon glyphicon-minus"></i></button>
+                            </div>
                         @endforeach
                     </div>
                 </div>

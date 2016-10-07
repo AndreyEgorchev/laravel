@@ -24,16 +24,16 @@
             <div class="form-group">
                 <div class="col-md-12">
                     <div class="col-md-4 form-control-static">
-                        @include('widgets.form._formitem_select', ['name' => 'specialty_name_1', 'title' => 'specialty_name_1', 'placeholder' => '--Виберіть спеціальність--' ])
+                        @include('widgets.form._formitem_select_speciality', ['name' => 'specialty_name_1', 'title' => 'specialty_name_1', 'placeholder' => '--Виберіть спеціальність--' ])
                     </div>
                     {{----------------------------------------------------------------------------------------------------------------------------------}}
 
                     <div class="col-md-4 form-control-static">
-                        @include('widgets.form._formitem_select', ['name' => 'specialty_name_2', 'title' => 'specialty_name_2', 'placeholder' => '--Виберіть спеціальність--','class'=> "form-control" ])
+                        @include('widgets.form._formitem_select_speciality', ['name' => 'specialty_name_2', 'title' => 'specialty_name_2', 'placeholder' => '--Виберіть спеціальність--','class'=> "form-control" ])
                     </div>
                     {{-----------------------------------------------------------------------------------------------------------------------------------}}
                     <div class="col-md-4 form-control-static">
-                        @include('widgets.form._formitem_select', ['name' => 'specialty_name_3', 'title' => 'specialty_name_3', 'placeholder' => '--Виберіть спеціальність--','class'=> "form-control" ])
+                        @include('widgets.form._formitem_select_speciality', ['name' => 'specialty_name_3', 'title' => 'specialty_name_3', 'placeholder' => '--Виберіть спеціальність--','class'=> "form-control" ])
                     </div>
                 </div>
             </div>
@@ -67,7 +67,6 @@
                     <div class="col-md-4 form-control-static">
                         <div class="{!! $errors->has('specialty_name_3') ? 'has-error' : null !!}">
                             <p>
-
                                 <select size="1" name="region_1" class="regionId_first" required>
                                     <option value="0" selected>--Виберіть Область--</option>
                                     @foreach($region as $key )
@@ -82,13 +81,15 @@
                                 @endforeach
                             @endif
                         </div>
+
                         <div class="first">
                                 <span class="area_first">
-
+                     @include('widgets.form._formitem_select_cities', ['name' => 'city_first', 'title' => 'city_first', 'placeholder' => '--Виберіть місто--' ])
                                 </span>
                         </div>
                     </div>
                     <div class="col-md-4 form-control-static">
+
                         <div class="{!! $errors->has('specialty_name_3') ? 'has-error' : null !!}">
                             <p>
 
@@ -109,11 +110,12 @@
                         </div>
                         <div class="second">
                             <span class="area_second">
-
+@include('widgets.form._formitem_select_cities', ['name' => 'city_first', 'title' => 'city_first', 'placeholder' => '--Виберіть місто--' ])
                             </span>
                         </div>
                     </div>
                     <div class="col-md-4 form-control-static">
+
                         <div class="{!! $errors->has('specialty_name_3') ? 'has-error' : null !!}">
                             <p>
                                 <select size="1" name="region_3" class="regionId_third" required>
@@ -132,6 +134,7 @@
                         </div>
                         <div class="third">
                              <span class="area_third">
+                                 @include('widgets.form._formitem_select_cities', ['name' => 'city_first', 'title' => 'city_first', 'placeholder' => '--Виберіть місто--' ])
                              </span>
                         </div>
                     </div>

@@ -1,3 +1,6 @@
+
+
+
 {!! Form::model($user, ['method' => 'PATCH','route' => ['auth.update', $user->id],'class'=>"form-signin",'files' => true]) !!}
 
 <div class="form-group">

@@ -29,11 +29,11 @@ class SpecilistController extends Controller
         'link_fb' => 'required|url',
         'attachments' => 'required',
         'specialty_name_1' => 'required',
-        'specialty_name_2' => 'required',
-        'specialty_name_3' => 'required',
-        "city_first" => 'required',
-        "city_second" => 'required',
-        "city_third" => 'required',
+        'specialty_name_2' => 'required|different:specialty_name_1|different:specialty_name_3',
+        'specialty_name_3' => 'required|different:specialty_name_1|different:specialty_name_2',
+        "city_first" => 'required|different:city_second|different:city_third',
+        "city_second" => 'required|different:city_first|different:city_third',
+        "city_third" => 'required|different:city_first|different:city_second',
         "region_1" => 'required|not_in:0',
         "region_2" => 'required|not_in:0',
         "region_3" => 'required|not_in:0'
@@ -95,13 +95,13 @@ class SpecilistController extends Controller
             if (!empty($files)) {
                 foreach ($files as $file) {
                     $image = new Images($files);
-                    $image['originalName'] = $file->getClientOriginalName();
+                    $filename = rand(11111,99999).$file->getClientOriginalName();
+                    $image['originalName'] = $filename;
                     $image['mimeType'] = $file->getClientMimeType();
                     $image['size'] = $file->getClientSize();
                     // Set the destination path
                     $destinationPath = 'images/uploads';
                     // Get the orginal filname or create the filename of your choice
-                    $filename = $file->getClientOriginalName();
                     // Copy the file in our upload folder
                     $file->move($destinationPath, $filename);
 
@@ -168,22 +168,23 @@ class SpecilistController extends Controller
     public function update(Request $request, $id)
     {
         $specialist = Specialist::findOrFail($id);
-//        $validator = Validator::make($request->all(), $this->rules);
-//        if ($validator->fails()) {
-//            return redirect()->back()->withErrors($validator->errors())->withInput();
-//        } else {
+        $this->validate($request, $this->rules);
         $input = $request->all();
         $files = $request->file('attachments');
-        if (!empty($files)) {
+//        dd($files);
+        if (!$files==null) {
             foreach ($files as $file) {
+//                dd($file);
                 $image = new Images($files);
-                $image['originalName'] = $file->getClientOriginalName();
+                $filename = rand(11111,99999).$file->getClientOriginalName();
+                $image['originalName'] = $filename;
                 $image['mimeType'] = $file->getClientMimeType();
                 $image['size'] = $file->getClientSize();
                 // Set the destination path
                 $destinationPath = 'images/uploads';
                 // Get the orginal filname or create the filename of your choice
-                $filename = $file->getClientOriginalName();
+
+//                dd($filename);
                 // Copy the file in our upload folder
                 $file->move($destinationPath, $filename);
 
@@ -194,7 +195,7 @@ class SpecilistController extends Controller
         $specialist->city()->sync(array($request->city_first, $request->city_second, $request->city_third));
         $specialist->specialitys()->sync(array($request->specialty_name_1, $request->specialty_name_2, $request->specialty_name_3));
         $specialist->fill($input)->save();
-        return Redirect::to('profile/' . $id);
+        return Redirect::to('profile/' . Sentinel::getUser()->id);
 //        }
     }
 
@@ -214,7 +215,7 @@ class SpecilistController extends Controller
             $item->delete();
         }
         $specialist->delete();
-        return Redirect::to('specialists');
+        return Redirect::to('profile/' . Sentinel::getUser()->id);
     }
 
     public function getCity_first(City $citymodel)
@@ -321,5 +322,17 @@ class SpecilistController extends Controller
         }
 
         return new Response();
+    }
+    public function del_image(Request $request){
+        if (isset($_POST['src']) && !empty($_POST['src'])) {
+            $src=$request->input("src");
+            $root=$_SERVER['DOCUMENT_ROOT'];
+            $array = explode('..', $src);
+            $array_image = explode('/', $array[1]);
+            $specialist = Specialist::where('id_user',Sentinel::getUser()->id)->first();
+            $image = Images::where('specialist_id',$specialist->id)->where('originalName',$array_image[3])->first();
+            $image->delete();
+            unlink($root.$array[1]);
+        }
     }
 }

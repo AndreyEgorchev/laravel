@@ -18,7 +18,7 @@ class CreateSpecialistsTable extends Migration
             $table->string('last_name')->nullable();
             $table->string('phone_number')->nullable();
             $table->string('email');
-            $table->string('description');
+            $table->text('description');
             $table->string('link_vk');
             $table->string('link_instagram');
             $table->string('link_fb');

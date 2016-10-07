@@ -27,6 +27,8 @@ Route::post('specialists/{id}/city_second','SpecilistController@getCity_second')
 Route::post('specialists/{id}/city_third','SpecilistController@getCity_third');
 Route::post('specialists/filter','SpecilistController@getFilter');
 Route::post('specialists/city_filter','SpecilistController@getCity_filter');
+Route::post('specialists/{id}/edit/del_image','SpecilistController@del_image');
+Route::post('specialists/image','SpecilistController@image');
 Route::group(['middlewareGroups' => ['web']], function () {
     /**
      * Route for auth system

@@ -159,3 +159,31 @@ $(function () {
     });
 
 });
+
+$(function () {
+    $('.del_image').click(function(){
+        div=$(this).parent(); //div, который содержить и картинку и кнопку
+        src=$(this).prev().attr('src'); //ссылка на кратинку
+        
+
+        $.ajax({
+            method: 'POST',
+            url: 'edit/del_image',
+            headers: {
+                'X-CSRF-Token': $('input[name="_token"]').val()
+            },
+            data: {src:src},
+            success: function(res)
+            {
+                div.remove(); //если все прошло без ошибок то удаляем div
+            },
+            error: function(msg)
+            {
+                console.log(msg);// если ошибка, то можно посмотреть в консоле
+            }
+        });
+
+    })
+
+});
+

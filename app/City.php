@@ -14,7 +14,6 @@ class City extends Model
     {
         $city=$this->where('id','=', $id)->first();
         $city_name=$city->city_ua;
-        dd($city_name);
         return $city_name;
     }
     public function specialists()
