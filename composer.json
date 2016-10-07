@@ -8,7 +8,7 @@
         "php": ">=5.5.9",
         "laravel/framework": "5.2.*",
         "laravelrus/sleepingowl": "4.60.13",
-        "laravelcollective/html": "5.2.*",
+        "laravelcollective/html": "^5.2",
         "cartalyst/sentinel": "2.0.*",
         "caouecs/laravel-lang": "~3.0",
         "intervention/image": "^2.3"

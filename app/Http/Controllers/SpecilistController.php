@@ -12,8 +12,9 @@ use App\Speciality;
 use Illuminate\Http\Request;
 use App\Images;
 use App\Http\Requests;
+use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Input;
 use Symfony\Component\HttpFoundation\Response;
-use Input;
 use Sentinel;
 
 class SpecilistController extends Controller
@@ -83,19 +84,31 @@ class SpecilistController extends Controller
      */
     public function store(Request $request)
     {
-//        dd($request->all());
-        $this->validate($request, $this->rules);
+
+//        $this->validate($request, $this->rules);
             $array=$request->all();
             $array['id_user']=Sentinel::getUser()->id;
             $spec = Specialist::create($array);
 
-            $spec->city()->attach([$request->city_first, $request->city_second, $request->city_third]);
-            $spec->specialitys()->attach([$request->specialty_name_1, $request->specialty_name_2, $request->specialty_name_3]);
+//            $spec->city()->attach([$request->city_first, $request->city_second, $request->city_third]);
+//            $spec->specialitys()->attach([$request->specialty_name_1, $request->specialty_name_2, $request->specialty_name_3]);
+
             $files = $request->file('attachments');
+
             if (!empty($files)) {
                 foreach ($files as $file) {
+
+//                    $img=Image::make( $file);
+//                    $image = new Images($files);
+//                    $path = public_path().'/images/uploads/avatars/';
+//                    $img->save($path.$image->getClientOriginalName())->resizeCanvas(500,500,'top')->resize(256,256)->save($path.'thumb_'.$image->getClientOriginalName());
+//                    $input['avatar'] = '/images/uploads/avatars/'.'thumb_'.$image->getClientOriginalName();
+
+
+
+
                     $image = new Images($files);
-                    $filename = rand(11111,99999).$file->getClientOriginalName();
+                    $filename =  time().'.'.$file->getClientOriginalName();
                     $image['originalName'] = $filename;
                     $image['mimeType'] = $file->getClientMimeType();
                     $image['size'] = $file->getClientSize();
@@ -175,6 +188,9 @@ class SpecilistController extends Controller
         if (!$files==null) {
             foreach ($files as $file) {
 //                dd($file);
+
+
+
                 $image = new Images($files);
                 $filename = rand(11111,99999).$file->getClientOriginalName();
                 $image['originalName'] = $filename;

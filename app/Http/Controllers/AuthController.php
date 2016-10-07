@@ -17,7 +17,9 @@ use Validator;
 use Mail;
 use Storage;
 use CurlHttp;
-use Image;
+use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Input;
+
 class AuthController extends Controller
 {
 
@@ -314,16 +316,12 @@ class AuthController extends Controller
         ]);
 
         $input = $request->all();
-//        dd($input);
-        $image = $request->file('avatar');
+        $image = Input::file('avatar');
         if ($image) {
-            $destinationPath = 'images/uploads/avatars';
-            // Get the orginal filname or create the filename of your choice
-            $filename = $image->getClientOriginalName();
-//        dd($filename);
-            // Copy the file in our upload folder
-            $image->move($destinationPath, $filename);
-            $input['avatar'] = '/'.$destinationPath.'/'.$filename;
+            $img=Image::make(Input::file('avatar'));
+            $path = public_path().'/images/uploads/avatars/';
+            $img->save($path.$image->getClientOriginalName())->resizeCanvas(500,500,'top')->resize(256,256)->save($path.'thumb_'.$image->getClientOriginalName());
+            $input['avatar'] = '/images/uploads/avatars/'.'thumb_'.$image->getClientOriginalName();
         }
         $user->fill($input)->save();
         return redirect()->back();

@@ -14,10 +14,14 @@
                     <div class="col-md-6">
                         <div class="profileimg">
                             <h3>Profile</h3>
-
+                        {{--<div class="block_img"--}}
+                             {{--style="background: url('{{asset('..'.$user->avatar)}}'); background-size: cover; background-position: center; background-position: top"--}}
+                        {{-->--}}
                             <img src="{{asset('..'.$user->avatar)}}"
                                  style="width:150px; height: 150px; float: left; border-radius: 50%; margin-right: 25px;">
 
+
+                        {{--</div>--}}
                             Користувач: {{ $user->first_name.' '.$user->last_name }}<br>
                             email: {{ $user->email }}<br>
                             Створення: {{ $user->created_at }}<br>
