@@ -5,8 +5,8 @@
 
             <dt class="list-determination_definition">{{ $specialists->phone_number }}</dt>
             <dt class="list-determination_term">Спеціальність</dt>
-            @foreach($specialists->specialityfull as $speciality )
-                <dt class="list-determination_definition">{{ $speciality->specialty_name }} </dt>
+            @foreach($speciality as $key )
+                <dt class="list-determination_definition">{{ $key->specialty_name }} </dt>
             @endforeach
             <dt class="list-determination_definition">{{ $specialists->email }}</dt>
             <dt class="list-determination_term">linkvk</dt>
@@ -15,9 +15,9 @@
             <dt class="list-determination_definition">{{ $specialists->link_instagram }}</dt>
             <dt class="list-determination_term">linkfb</dt>
             <dt class="list-determination_definition">{{ $specialists->link_fb }}</dt>
-            @foreach($specialists->cityfull as $city )
+            @foreach($city as $item )
 
-                <dt class="list-determination_definition">{{ $city->city_ua }}</dt>
+                <dt class="list-determination_definition">{{ $item->city_ua }}</dt>
             @endforeach
             <dt class="list-determination_term">Опис навичків роботи</dt>
 

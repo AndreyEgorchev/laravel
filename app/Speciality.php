@@ -11,7 +11,7 @@ class Speciality extends Model
     ];
     public function getNameSpeciality($id)
     {
-        $speciality=$this->latest('specialty_name')->where('id','=', $id)->first();
+        $speciality=$this->query('specialty_name')->where('id','=', $id)->first();
         return $speciality;
 
     }

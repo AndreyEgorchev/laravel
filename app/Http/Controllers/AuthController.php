@@ -285,13 +285,15 @@ class AuthController extends Controller
         $specialists = Specialist::where('id_user',$id)->first();
 
         if ($specialists){
-            $specialists['cityfull'] = $specialistmodel->getCityForSpec($specialists->id);
-            $specialists['specialityfull'] = $specialistmodel->getSpecialityForSpec($specialists->id);
+            $city = $specialists->city;
+            $speciality = $specialists->speciality;
             $images = $specialists->images;
 
             return view('auth.profile', ['user' => $user,
                 'specialists'=>$specialists,
-                'images'=>$images]);
+                'images'=>$images,
+                'city'=>$city,
+                'speciality'=>$speciality]);
         }
 
         return view('auth.profile', ['user' => $user,
@@ -305,7 +307,6 @@ class AuthController extends Controller
     public function update(Request $request, $id)
     {
         $user = User::findOrFail($id);
-//        dd($request->all());
         $this->validate($request, [
             'first_name' => 'required',
             'last_name' => 'required',

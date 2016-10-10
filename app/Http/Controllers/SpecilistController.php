@@ -46,19 +46,20 @@ class SpecilistController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Specialist $specialistmodel, Speciality $specialitymodel)
+    public function index()
     {
-        $specialists = Specialist::all();
+        $specialists = Specialist::paginate(4);
         $speciality = Speciality::all();
         foreach ($specialists as $key) {
-            $key['cityfull'] = $specialistmodel->getCityForSpec($key->id);
-            $key['specialityfull'] = $specialistmodel->getSpecialityForSpec($key->id);
+            $key['cityfull'] = $key->city;
+            $key['specialityfull'] = $key->speciality;
         }
         $region = Region::all();
         return view('specialist.specialists', [
             'specialists' => $specialists,
             'speciality' => $speciality,
-            'region' => $region
+            'region' => $region,
+            
         ]);
     }
 
@@ -85,28 +86,18 @@ class SpecilistController extends Controller
     public function store(Request $request)
     {
 
-//        $this->validate($request, $this->rules);
+        $this->validate($request, $this->rules);
             $array=$request->all();
             $array['id_user']=Sentinel::getUser()->id;
             $spec = Specialist::create($array);
 
-//            $spec->city()->attach([$request->city_first, $request->city_second, $request->city_third]);
-//            $spec->specialitys()->attach([$request->specialty_name_1, $request->specialty_name_2, $request->specialty_name_3]);
+            $spec->city()->attach([$request->city_first, $request->city_second, $request->city_third]);
+            $spec->speciality()->attach([$request->specialty_name_1, $request->specialty_name_2, $request->specialty_name_3]);
 
             $files = $request->file('attachments');
 
             if (!empty($files)) {
                 foreach ($files as $file) {
-
-//                    $img=Image::make( $file);
-//                    $image = new Images($files);
-//                    $path = public_path().'/images/uploads/avatars/';
-//                    $img->save($path.$image->getClientOriginalName())->resizeCanvas(500,500,'top')->resize(256,256)->save($path.'thumb_'.$image->getClientOriginalName());
-//                    $input['avatar'] = '/images/uploads/avatars/'.'thumb_'.$image->getClientOriginalName();
-
-
-
-
                     $image = new Images($files);
                     $filename =  time().'.'.$file->getClientOriginalName();
                     $image['originalName'] = $filename;
@@ -138,11 +129,13 @@ class SpecilistController extends Controller
     public function show($id, Specialist $specialistmodel)
     {
         $specialists = Specialist::find($id);
-        $specialists['cityfull'] = $specialistmodel->getCityForSpec($id);
-        $specialists['specialityfull'] = $specialistmodel->getSpecialityForSpec($id);
+        $city = $specialists->city;
+        $speciality = $specialists->speciality;
         $images = $specialists->images;
         return view('specialist.specialists_show', ['specialists' => $specialists,
-            'images' => $images]);
+            'images' => $images,
+            'city'=>$city,
+            'speciality'=>$speciality]);
 
     }
 
@@ -152,20 +145,19 @@ class SpecilistController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Specialist $specialistmodel, $id, Region $regionymodel, City $citymodel)
+    public function edit($id, Region $regionymodel, City $citymodel)
     {
         $specialists = Specialist::find($id);
-        $specialists['speciality'] = $specialistmodel->getSpecialityForSpec($id);
+        $specialists['speciality'] = $specialists->speciality;
         $specialists['allspeciality'] = Speciality::all();
         $specialists['images'] = $specialists->images;
-        $temp = $specialists->getCityForSpec($id);
-        foreach ($temp as $key) {
+        foreach ($specialists->city as $key) {
             $region[] = $regionymodel->getNameRegion($key->region);
             $city[] = $citymodel->getCity($key->region);
         }
         $specialists['region'] = $region;
         $specialists['allregion'] = Region::all();
-        $specialists['city'] = $temp;
+        $specialists['city'] = $specialists->city;
         $specialists['cityuser'] = $city;
         return view('specialist.specialists_edit')->withTask($specialists);
     }
@@ -188,9 +180,6 @@ class SpecilistController extends Controller
         if (!$files==null) {
             foreach ($files as $file) {
 //                dd($file);
-
-
-
                 $image = new Images($files);
                 $filename = rand(11111,99999).$file->getClientOriginalName();
                 $image['originalName'] = $filename;
@@ -199,17 +188,15 @@ class SpecilistController extends Controller
                 // Set the destination path
                 $destinationPath = 'images/uploads';
                 // Get the orginal filname or create the filename of your choice
-
 //                dd($filename);
                 // Copy the file in our upload folder
                 $file->move($destinationPath, $filename);
-
                 $image['pathName'] = $destinationPath;
                 $specialist->images()->save($image);
             }
         }
         $specialist->city()->sync(array($request->city_first, $request->city_second, $request->city_third));
-        $specialist->specialitys()->sync(array($request->specialty_name_1, $request->specialty_name_2, $request->specialty_name_3));
+        $specialist->speciality()->sync(array($request->specialty_name_1, $request->specialty_name_2, $request->specialty_name_3));
         $specialist->fill($input)->save();
         return Redirect::to('profile/' . Sentinel::getUser()->id);
 //        }
@@ -224,8 +211,7 @@ class SpecilistController extends Controller
     public function destroy($id, Images $imagemodel)
     {
         $specialist = Specialist::findOrFail($id);
-        $specialist_image = $specialist->images;
-        foreach ($specialist_image as $item) {
+        foreach ($specialist->images as $item) {
             $destinationPath = '\images\uploads/';
             unlink(public_path() . $destinationPath . $item->originalName);
             $item->delete();
@@ -306,12 +292,6 @@ class SpecilistController extends Controller
             if ($specialists === null) {
                 return new Response();
             }
-
-        }
-//        dd($specialists);
-        foreach ($specialists as $key) {
-            $key['cityfull'] = $specmodel->getCityForSpec($key->id);
-            $key['specialityfull'] = $specmodel->getSpecialityForSpec($key->id);
         }
         foreach ($specialists as $specialist) {
             echo "<dt class='list-determination_definition'>" . $specialist->first_name . "</dt>";
@@ -319,13 +299,13 @@ class SpecilistController extends Controller
             echo "<dt class='list-determination_definition'>" . $specialist->phone_number . "</dt>";
             echo "<dt class='list-determination_definition'>" . $specialist->email . "</dt>";
             echo "<dt class='list-determination_definition'>";
-            foreach ($specialist->cityfull as $city) {
+            foreach ($specialist->city as $city) {
                 echo $city->city_ua;
                 echo " ";
             }
             echo " </dt>";
             echo " <dt class='list-determination_definition'>";
-            foreach ($specialist->specialityfull as $speciality) {
+            foreach ($specialist->speciality as $speciality) {
                 echo $speciality->specialty_name;
                 echo " ";
             }

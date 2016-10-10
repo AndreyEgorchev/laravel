@@ -66,6 +66,7 @@
                         <a href="{{ route('specialists.show', $specialist->id) }}" class="btn btn-info">Переглянути профіль</a>
                     </p>
                 @endforeach
+                    {!! str_replace('/?', '?', $specialists->render()) !!}
             </div>
         </div>
     </div>

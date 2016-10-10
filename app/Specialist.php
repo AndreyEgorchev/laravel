@@ -113,22 +113,9 @@ class Specialist extends Model
     }
 
     /**
-     * @param $id
-     * @return array
-     */
-    public function getCityForSpec($id)
-    {
-
-        $spec = Specialist::find($id);
-        $array_city = $spec->city;
-        return $array_city;
-    }
-
-
-    /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function specialitys()
+    public function speciality()
     {
         return $this->belongsToMany('App\Speciality', 'spec_speciality', 'specialist_id', 'speciality_id');
     }
@@ -138,14 +125,14 @@ class Specialist extends Model
      */
     public function setSpecialitysAttribute($specialitys)
     {
-        $this->specialitys()->detach();
+        $this->speciality()->detach();
         if (!$specialitys) {
             return;
         }
         if (!$this->exists) {
             $this->save();
         }
-        $this->specialitys()->attach($specialitys);
+        $this->speciality()->attach($specialitys);
     }
 
     /**
@@ -154,33 +141,9 @@ class Specialist extends Model
      */
     public function getSpecialitysAttribute($specialitys)
     {
-        return array_pluck($this->specialitys()->get(['id'])->toArray(), 'id');
+        return array_pluck($this->speciality()->get(['id'])->toArray(), 'id');
     }
 
-    public function getSpecialityForSpec($id)
-    {
-        $specialitymodel = new Speciality();
-        $spec = Specialist::find($id);
-        foreach ($spec->specialitys as $key) {
-            $array_spec[] = $specialitymodel->getNameSpeciality($key);
-        }
-        return $array_spec;
-    }
-
-    public function getAllcity($filter2_id)
-    {
-        if (isset($filter2_id) && !empty($filter2_id)) {
-            $specialist = DB::table('spec_city')->where('city_id', '=', $filter2_id)->get();
-            if (count($specialist) > 1) {
-                foreach ($specialist as $item) {
-                    $array[] = $item->specialist_id;
-                }
-                return $array;
-            } else {
-                return null;
-            }
-        }
-    }
 
     /**
      * @param $filter1_id
@@ -190,12 +153,9 @@ class Specialist extends Model
      */
     public function filter($filter1_id, $filter3_id, $filter2_id)
     {
-
-//        $array_specialists = DB::table('specialists')->where('last_name', '=', $filter1_id)->lists('id');
         $array_speciality_id = DB::table('spec_speciality')->where('speciality_id', '=', $filter3_id)->lists('specialist_id');
         $array_city_id = DB::table('spec_city')->where('city_id', '=', $filter2_id)->lists('specialist_id');
-
-                $specialists = Specialist::query('last_name')
+        $specialists = Specialist::query('last_name')
             ->when($filter1_id, function ($query) use ($filter1_id) {
                 return $query->where('last_name', $filter1_id);
             })
